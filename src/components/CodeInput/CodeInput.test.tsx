@@ -30,7 +30,7 @@ describe("CodeInput", () => {
       fireEvent.change(textarea!, { target: { value: "Hello world" } });
       // check onEnterPress is called
       fireEvent.keyDown(textarea!, { key: "Enter" });
-      expect(onEnterPress).toHaveBeenCalledWith("Hello world\n");
+      expect(onEnterPress).toHaveBeenCalledWith("Hello world");
     });
 
     test("passes only the last line entered to onEnterPress", () => {
@@ -39,7 +39,7 @@ describe("CodeInput", () => {
       });
       // check onEnterPress is called
       fireEvent.keyDown(textarea!, { key: "Enter" });
-      expect(onEnterPress).toHaveBeenCalledWith("Start coding\n");
+      expect(onEnterPress).toHaveBeenCalledWith("Start coding");
     });
   });
 });

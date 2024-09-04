@@ -8,7 +8,6 @@ interface CodeInputProps {
 
 export const CodeInput = ({ onEnterPress }: CodeInputProps) => {
   const [code, setCode] = useState("");
-  const [lines, setLines] = useState<string[]>([]);
 
   const lastLineOfCode = () => {
     return code.split("\n").pop() || "";
@@ -21,7 +20,7 @@ export const CodeInput = ({ onEnterPress }: CodeInputProps) => {
     if (event.key === "Enter") {
       event.preventDefault();
       addLineBreakToCode();
-      onEnterPress(lastLineOfCode() + "\n");
+      onEnterPress(lastLineOfCode());
     }
   };
 

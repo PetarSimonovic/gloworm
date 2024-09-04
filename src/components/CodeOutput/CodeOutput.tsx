@@ -1,11 +1,13 @@
 import "./CodeOutput.scss";
 
-export const CodeOutput = () => {
+interface CodeOutputProps {
+  displayOutput: (output: string) => void;
+}
+
+export const CodeOutput = ({ displayOutput }: CodeOutputProps) => {
   return (
     <>
-      <div className="code-output">
-        <p>Hello</p>
-      </div>
+      <div className="code-output"></div>
     </>
   );
 };
