@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import "./CodeOutput.scss";
 
 export const CodeOutput = () => {
