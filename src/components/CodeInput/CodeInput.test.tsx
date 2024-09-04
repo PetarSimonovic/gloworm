@@ -1,4 +1,4 @@
-import { expect, describe, test, mock } from "bun:test";
+import { expect, it, describe, test, mock } from "bun:test";
 import { render, fireEvent } from "@testing-library/react";
 
 import { CodeInput } from "./CodeInput";
@@ -11,14 +11,16 @@ describe("CodeInput", () => {
     expect(textarea).not.toBeNull();
   });
 
-  test("should add a new line when Enter key is pressed", () => {
-    const { container } = render(<CodeInput onEnterPress={onEnterPress} />);
-    const textarea = container.querySelector("textarea");
+  test("when Enter key is pressed", () => {
+    it("should add a new line", () => {
+      const { container } = render(<CodeInput onEnterPress={onEnterPress} />);
+      const textarea = container.querySelector("textarea");
 
-    fireEvent.change(textarea!, { target: { value: "Hello" } });
-    expect(textarea!.value).toBe("Hello");
+      fireEvent.change(textarea!, { target: { value: "Hello" } });
+      expect(textarea!.value).toBe("Hello");
 
-    fireEvent.keyDown(textarea!, { key: "Enter" });
-    expect(textarea!.value).toBe("Hello\n");
+      fireEvent.keyDown(textarea!, { key: "Enter" });
+      expect(textarea!.value).toBe("Hello\n");
+    });
   });
 });
