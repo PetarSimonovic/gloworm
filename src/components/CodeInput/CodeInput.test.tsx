@@ -26,12 +26,20 @@ describe("CodeInput", () => {
       expect(textarea!.value).toBe("Hello\n");
     });
 
-    test("calls onEnterPress", () => {
-      fireEvent.change(textarea!, { target: { value: "Hello" } });
-
+    test("passes the first line entered to onEnterPress", () => {
+      fireEvent.change(textarea!, { target: { value: "Hello world" } });
       // check onEnterPress is called
       fireEvent.keyDown(textarea!, { key: "Enter" });
-      expect(onEnterPress).toHaveBeenCalledWith("Hello\n");
+      expect(onEnterPress).toHaveBeenCalledWith("Hello world\n");
+    });
+
+    test("passes only the last line entered to onEnterPress", () => {
+      fireEvent.change(textarea!, {
+        target: { value: "Hello world\nStart coding" },
+      });
+      // check onEnterPress is called
+      fireEvent.keyDown(textarea!, { key: "Enter" });
+      expect(onEnterPress).toHaveBeenCalledWith("Start coding\n");
     });
   });
 });

@@ -8,21 +8,25 @@ interface CodeInputProps {
 
 export const CodeInput = ({ onEnterPress }: CodeInputProps) => {
   const [code, setCode] = useState("");
+  const [lines, setLines] = useState<string[]>([]);
+
+  const lastLineOfCode = () => {
+    return code.split("\n").pop() || "";
+  };
+
+  const addLineBreakToCode = () => {
+    setCode((prev) => prev + "\n");
+  };
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      const { selectionStart, selectionEnd, value } = event.currentTarget;
-      event.currentTarget.value =
-        value.substring(0, selectionStart) +
-        "\n" +
-        value.substring(selectionEnd);
-      onEnterPress(event.currentTarget.value);
+      addLineBreakToCode();
+      onEnterPress(lastLineOfCode() + "\n");
     }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCode(event.target.value);
-    console.log(code);
   };
 
   return (
