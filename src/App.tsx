@@ -1,11 +1,11 @@
 import { Repl } from "./components/Repl/Repl";
-import "./App.css";
+import "./App.scss";
 
 function App() {
   return (
-    <>
+    <div className="app">
       <Repl />
-    </>
+    </div>
   );
 }
 

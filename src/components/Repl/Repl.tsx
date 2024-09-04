@@ -5,9 +5,9 @@ import "./Repl.scss";
 
 export const Repl = () => {
   return (
-    <>
+    <div className="repl">
       <CodeInput />
       <CodeOutput />
-    </>
+    </div>
   );
 };
