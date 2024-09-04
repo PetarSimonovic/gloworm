@@ -1,10 +1,6 @@
 import "./CodeOutput.scss";
 
-interface CodeOutputProps {
-  displayOutput: (output: string) => void;
-}
-
-export const CodeOutput = ({ displayOutput }: CodeOutputProps) => {
+export const CodeOutput = () => {
   return (
     <>
       <div className="code-output"></div>

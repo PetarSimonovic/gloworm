@@ -19,7 +19,7 @@ export const Repl = () => {
   return (
     <div className="repl">
       <CodeInput onEnterPress={onEnterPress} />
-      <CodeOutput displayOutput={displayOutput} />
+      <CodeOutput />
     </div>
   );
 };

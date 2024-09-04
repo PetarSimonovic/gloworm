@@ -1,10 +1,15 @@
-import { expect, describe, test } from "bun:test";
+import { expect, describe, test, beforeEach } from "bun:test";
 import { render } from "@testing-library/react";
 
 import { Repl } from "./Repl";
 
+let container: HTMLElement;
+
 describe("CodeInput", () => {
-  const { container } = render(<Repl />);
+  beforeEach(() => {
+    const rendered = render(<Repl />);
+    container = rendered.container;
+  });
 
   test("renders a CodeInput component", () => {
     const divElement = container.querySelector(".code-input");
