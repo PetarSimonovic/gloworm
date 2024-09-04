@@ -1,13 +1,10 @@
-import { useState } from "react";
-import { CodeInput } from "./components/CodeInput/CodeInput";
-import { CodeOutput } from "./components/CodeOutput/CodeOutput";
+import { Repl } from "./components/Repl/Repl";
 import "./App.css";
 
 function App() {
   return (
     <>
-      <CodeInput />
-      <CodeOutput />
+      <Repl />
     </>
   );
 }
