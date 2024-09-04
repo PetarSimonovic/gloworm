@@ -1,5 +1,5 @@
 import { expect, describe, test } from "bun:test";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 import { CodeInput } from "./CodeInput";
 
