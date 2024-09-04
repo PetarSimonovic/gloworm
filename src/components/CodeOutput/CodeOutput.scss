@@ -13,15 +13,20 @@
   white-space: pre; /* Preserve whitespace */
   resize: none; /* Prevent resizing */
   text-shadow: 0 0 3px #ffff55, 0 0 10px #ffff55, 0 0 15px #ffff55; /* Glowing effect */
-  text-align: block-start;
+  text-align: inline-start;
 
   &::placeholder {
     color: #4c566a; /* Placeholder color */
+    text-align: inline-start;
   }
 
   &:focus {
     outline: none;
     border-color: #88c0d0; /* Border color on focus */
     box-shadow: 0 0 5px rgba(136, 192, 208, 0.5); /* Shadow on focus */
+  }
+
+  p {
+    text-align: start;
   }
 }
