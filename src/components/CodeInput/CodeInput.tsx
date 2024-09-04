@@ -16,6 +16,7 @@ export const CodeInput = ({ onEnterPress }: CodeInputProps) => {
         value.substring(0, selectionStart) +
         "\n" +
         value.substring(selectionEnd);
+      onEnterPress(event.currentTarget.value);
     }
   };
 

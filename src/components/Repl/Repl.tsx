@@ -5,6 +5,7 @@ import "./Repl.scss";
 
 export const Repl = () => {
   const onEnterPress = (value: string) => {
+    console.log("REPL");
     console.log(value);
   };
 
