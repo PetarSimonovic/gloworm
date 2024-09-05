@@ -1,25 +1,23 @@
 import { CodeInput } from "../CodeInput/CodeInput";
 import { CodeOutput } from "../CodeOutput/CodeOutput";
+import { Button } from "../Button/Button";
+import { appendPara } from "../../utils/displayHelper";
 
 import "./Repl.scss";
 
 export const Repl = () => {
-  const displayOutput = (command: string) => {
-    // add a new paragraph within the parent div
-
-    const newParagraph = document.createElement("p");
-    newParagraph.textContent = command;
-    const codeOutput = document.querySelector(".code-output");
-    codeOutput?.appendChild(newParagraph);
-  };
   const onEnterPress = (command: string) => {
-    displayOutput(command);
+    appendPara(command, ".code-output");
   };
 
   return (
     <div className="repl">
       <CodeInput onEnterPress={onEnterPress} />
       <CodeOutput />
+      <Button
+        onClick={() => console.log("Click")}
+        label="Connect to MicroPython"
+      />
     </div>
   );
 };
