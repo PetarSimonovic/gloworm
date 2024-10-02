@@ -1,6 +1,7 @@
 .code-input {
   width: 80vw;
   height: 30vw;
+  padding: 2rem;
   font-family: "Courier New", Courier, monospace; /* IDE-like font */
   font-size: 16px; /* Adjust font size as needed */
   background-color: #16161d; /* Dark background color */
@@ -17,7 +18,7 @@
 
   &--connected {
     outline: none;
-    box-shadow: 5px 5px 15px #4a4a4a, -5px -5px 15px #000000, 0 0 20px #00ff00,
-      0 0 30px #00ff00; /* Increase glow on hover */
+    box-shadow: 5px 5px 25px #4a4a4a, -5px -5px 25px #000000, 0 0 25px #00ff00,
+      0 0 35px #00ff00; /* Increase glow on hover */
   }
 }

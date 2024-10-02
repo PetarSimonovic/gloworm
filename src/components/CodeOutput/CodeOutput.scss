@@ -11,6 +11,7 @@
   text-shadow: 0 0 3px #ffff55, 0 0 10px #ffff55, 0 0 15px #ffff55; /* Glowing effect */
   text-align: inline-start;
   transition: box-shadow 2s ease-in-out; /* Add transition for box-shadow */
+  padding: 2rem;
 
   &::placeholder {
     color: #4c566a; /* Placeholder color */
@@ -19,8 +20,8 @@
 
   &--connected {
     outline: none;
-    box-shadow: 5px 5px 15px #4a4a4a, -5px -5px 15px #000000, 0 0 20px #00ff00,
-      0 0 30px #ffff55;
+    box-shadow: 5px 5px 25px #4a4a4a, -5px -5px 25px #000000, 0 0 25px #00ff00,
+      0 0 35px #ffff55;
   }
 
   p {
