@@ -10,14 +10,18 @@ export const Repl = () => {
     appendPara(command, ".code-output");
   };
 
+  const onClickConnect = async () => {
+    appendPara("Connecting to MicroPython...", ".code-output");
+    const obtainedPort = await navigator.serial.requestPort();
+    await obtainedPort.open({ baudRate: 115200 });
+    appendPara(`Connected to ${obtainedPort}`, ".code-output");
+  };
+
   return (
     <div className="repl">
       <CodeInput onEnterPress={onEnterPress} />
       <CodeOutput />
-      <Button
-        onClick={() => console.log("Click")}
-        label="Connect to MicroPython"
-      />
+      <Button onClick={onClickConnect} label="Connect to MicroPython" />
     </div>
   );
 };
