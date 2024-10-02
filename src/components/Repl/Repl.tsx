@@ -9,8 +9,35 @@ import "./Repl.scss";
 export const Repl = () => {
   const [port, setPort] = useState<SerialPort | null>(null);
 
-  const onEnterPress = (command: string) => {
-    appendPara(command, ".code-output");
+  const onEnterPress = async (command: string) => {
+    if (!port) {
+      appendPara("Please connect to MicroPython first.", ".code-output");
+      return;
+    }
+    const writer = await port.writable.getWriter();
+    const reader = await port.readable.getReader();
+    const encoder = new TextEncoder();
+    await writer.write(encoder.encode(command + "\r\n"));
+    writer.releaseLock();
+    try {
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) {
+          appendPara("done", ".code-output");
+
+          break;
+        }
+        if (value) {
+          const text = new TextDecoder().decode(value);
+          appendPara(text, ".code-output");
+        }
+      }
+    } catch (error) {
+      console.error("Error reading from serial port:", error);
+    } finally {
+      reader?.releaseLock();
+      writer?.releaseLock();
+    }
   };
 
   const onClickConnect = async () => {
@@ -21,53 +48,10 @@ export const Repl = () => {
     setPort(obtainedPort);
   };
 
-  useEffect(() => {
-    const checkMicroPython = async (port: SerialPort) => {
-      const writer = port.writable.getWriter();
-      const reader = port.readable.getReader();
-
-      // Send a simple MicroPython command
-      const command = 'print("Hello, MicroPython!")\r\n';
-      const encoder = new TextEncoder();
-      await writer.write(encoder.encode(command));
-
-      let finalValue;
-
-      // Read the response
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) {
-          finalValue = value;
-          break;
-        }
-        if (value) {
-          const text = new TextDecoder().decode(value);
-          appendPara(text, ".code-output");
-        }
-      }
-      const textDecoder = new TextDecoder();
-      const decodedValue = textDecoder.decode(finalValue);
-      console.log(decodedValue);
-
-      if (decodedValue.includes("Hello, MicroPython!")) {
-        appendPara("MicroPython detected!", ".code-output");
-      } else {
-        appendPara("MicroPython not detected.", ".code-output");
-      }
-
-      reader.releaseLock();
-      writer.releaseLock();
-    };
-
-    if (port) {
-      checkMicroPython(port);
-    }
-  }, [port]);
-
   return (
     <div className="repl">
-      <CodeInput onEnterPress={onEnterPress} />
-      <CodeOutput />
+      <CodeInput onEnterPress={onEnterPress} connected={!!port} />
+      <CodeOutput connected={!!port} />
       <Button onClick={onClickConnect} label="Connect to MicroPython" />
     </div>
   );

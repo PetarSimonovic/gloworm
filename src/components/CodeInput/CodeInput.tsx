@@ -4,9 +4,10 @@ import "./CodeInput.scss";
 
 interface CodeInputProps {
   onEnterPress: (value: string) => void;
+  connected: boolean;
 }
 
-export const CodeInput = ({ onEnterPress }: CodeInputProps) => {
+export const CodeInput = ({ onEnterPress, connected }: CodeInputProps) => {
   const [code, setCode] = useState("");
 
   const lastLineOfCode = () => {
@@ -31,7 +32,7 @@ export const CodeInput = ({ onEnterPress }: CodeInputProps) => {
   return (
     <>
       <textarea
-        className="code-input"
+        className={`code-input ${connected ? "code-input--connected" : ""}`}
         onChange={handleChange}
         value={code}
         onKeyDown={handleKeyDown}
