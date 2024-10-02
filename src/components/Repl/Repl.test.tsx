@@ -5,7 +5,7 @@ import { Repl } from "./Repl";
 
 let container: HTMLElement;
 
-describe("CodeInput", () => {
+describe("Repl", () => {
   beforeEach(() => {
     const rendered = render(<Repl />);
     container = rendered.container;
