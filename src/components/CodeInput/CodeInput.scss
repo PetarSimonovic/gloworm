@@ -4,14 +4,13 @@
   width: 50vw;
   padding: 2rem;
   font-size: 16px; /* Adjust font size as needed */
-  color: var(--slowworm-green); /* Light text color */
+  color: whitesmoke; /* Light text color */
   overflow: auto; /* Enable scrolling */
   white-space: pre; /* Preserve whitespace */
   resize: none; /* Prevent resizing */
-  text-shadow: 0 0 3px var(--slowworm-green), 0 0 10px var(--slowworm-green),
-    0 0 15px var(--slowworm-green); /* Glowing effect */
-  transition: box-shadow 2s ease-in-out; /* Add transition for box-shadow */
-  transition: background-color 2s ease-in-out;
+  text-shadow: none;
+  transition: background-color 2s ease-in-out, box-shadow 2s ease-in-out,
+    color 2s ease-in-out, text-shadow 2s ease-in-out;
   border: none;
   outline: none;
 
@@ -21,6 +20,9 @@
 
   &--connected {
     outline: none;
+    color: var(--slowworm-green); /* Light text color */
+    text-shadow: 0 0 3px var(--slowworm-green), 0 0 10px var(--slowworm-green),
+      0 0 15px var(--slowworm-green); /* Glowing effect */
     background-color: #16161d; /* Dark background color */
     box-shadow: 5px 5px 25px #4a4a4a, -5px -5px 25px #000000,
       0 0 25px var(--slowworm-green), 0 0 35px var(--slowworm-green); /* Increase glow on hover */
