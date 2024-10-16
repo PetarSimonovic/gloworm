@@ -21,7 +21,7 @@
     outline: none;
     box-shadow: 5px 5px 25px #4a4a4a, -5px -5px 25px #000000, 0 0 25px #00ff00,
       0 0 35px var(--slowworm-yellow);
-    background-color: #0000aa; /* Dark background color */
+    background-color: var(--eigengrau); /* Dark background color */
     color: var(--slowworm-yellow); /* Light text color */
     text-shadow: 0 0 3px var(--slowworm-yellow), 0 0 10px var(--slowworm-yellow),
       0 0 15px var(--slowworm-yellow); /* Glowing effect */
