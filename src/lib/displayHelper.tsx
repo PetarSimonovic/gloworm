@@ -4,3 +4,10 @@ export const appendPara = (command: string, element: string) => {
   const codeOutput = document.querySelector(element);
   codeOutput?.appendChild(newParagraph);
 };
+
+export const scrollIntoView = (element: string) => {
+  const codeOutput = document.querySelector(element);
+
+  // scroll codeOutput so the last item is visible
+  codeOutput?.scrollTo(0, codeOutput.scrollHeight);
+};

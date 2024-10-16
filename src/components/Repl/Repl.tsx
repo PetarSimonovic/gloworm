@@ -2,7 +2,7 @@ import { CodeInput } from "../CodeInput/CodeInput";
 import { useState, useEffect } from "react";
 import { CodeOutput } from "../CodeOutput/CodeOutput";
 import { Button } from "../Button/Button";
-import { appendPara } from "../../utils/displayHelper";
+import { appendPara, scrollIntoView } from "../../lib/displayHelper";
 
 import "./Repl.scss";
 
@@ -65,12 +65,14 @@ export const Repl = () => {
         const { value, done } = await reader.read();
         if (done) {
           appendPara("done", ".code-output");
+          scrollIntoView(".code-output");
 
           break;
         }
         if (value) {
           const text = new TextDecoder().decode(value);
           appendPara(text, ".code-output");
+          scrollIntoView(".code-output");
         }
       }
     } catch (error) {
