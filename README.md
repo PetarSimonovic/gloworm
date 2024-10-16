@@ -2,7 +2,7 @@
 
 Slow Worm is an in-browser tool that uses the [Web Serial API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API) to connect and code MicroPython boards.
 
-It's a work in progress and has been developed using a Raspberry Pi Pico.
+It's a work in progress and has been developed using a Raspberry Pi Pico. No other types of board have been tested.
 
 The Web Serial API itself is an exprimental feature that isn't compatible with all browsers.
 
@@ -18,21 +18,23 @@ Chrome is recommended.
 
 Slow Worm should be available on http://localhost:5173/
 
-## Connecting a Pico
+## Connecting a MicroPython board
 
 Click the `connect` button.
 
 When prompted, select `Board in FS mode`.
 
-If the connection is succesful the output pane will state that it's `Connected to MicroPython`
+If the connection is succesful the output pane will state that it's `Connected to MicroPython`.
 
-## Coding a Pico
+## Sending code to the board
 
-Type a line of code in the input pane at the top of the screen then press return to send it to the Pico.
+Type a line of code in the input pane at the top of the screen then press return to send it to the connected MicroPython board.
 
-The Pico's response will appear in the Output pane below.
+The board's response will appear in the Output pane below.
 
-Making a Pico's onboard LED blink is the MicroPython equivalent of "Hello World".
+Making a board's onboard LED blink is the MicroPython equivalent of "Hello World". 
+
+Here's how to do it on a Pico.
 
 ```python
 from machine import Pin
@@ -51,6 +53,6 @@ Click the disconnect button to disconnect from the board.
 
 ## Forthcoming work
 
-- string indentation to help format MicroPython code (string indentation works at the moment but it's tempremental)
-- more tests, refactoring etc
-- flickering glowing effects, possibly to indicate errors
+- String indentation to help format MicroPython code (string indentation works at the moment but it's tempremental)
+- More tests, refactoring etc
+- Flickering glowing effects, possibly to indicate errors
