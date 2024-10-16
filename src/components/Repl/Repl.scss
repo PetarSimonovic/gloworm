@@ -13,13 +13,11 @@
 .title {
   font-size: 2rem;
   font-weight: bold;
-  color: whitesmoke;
+  color: whitesmoke; /* Light text color */
   transition: text-shadow 2s ease-in-out, color 2s ease-in-out; /* Add transition for box-shadow */
 
   &--disconnected {
-    text-shadow: -1px -1px 0 var(--disconnected-grey),
-      1px -1px 0 var(--disconnected-grey), -1px 1px 0 var(--disconnected-grey),
-      1px 1px 0 var(--disconnected-grey);
+    text-shadow: none;
   }
 
   &--connected {
