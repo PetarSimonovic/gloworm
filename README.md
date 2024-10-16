@@ -20,7 +20,7 @@ Slow Worm should be available on http://localhost:5173/
 
 ## Connecting a Pico
 
-Connect a Pico to your computer. Click the `connect` button.
+Click the `connect` button.
 
 When prompted, select `Board in FS mode`.
 
@@ -42,6 +42,9 @@ led.toggle()
 ```
 
 Subsequent calls to `led.toggle()` should make the light go on and off.
+
+MicroPython uses indentation to delineate blocks of code. Slow Worm doesn't yet offer any formatting help here, so just try to count the number of spaces you've used to indent. 
+
 
 ## Disconnecting
 
