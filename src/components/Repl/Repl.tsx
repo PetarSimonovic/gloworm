@@ -2,7 +2,7 @@ import { CodeInput } from "../CodeInput/CodeInput";
 import { useState, useEffect } from "react";
 import { CodeOutput } from "../CodeOutput/CodeOutput";
 import { Button } from "../Button/Button";
-import { appendPara, scrollIntoView } from "../../lib/displayHelper";
+import { appendContent, scrollIntoView } from "../../lib/displayHelper";
 
 import "./Repl.scss";
 
@@ -16,7 +16,7 @@ export const Repl = () => {
       if (!port) {
         return;
       }
-      appendPara("Connected to MicroPython...", ".code-output");
+      appendContent("Connected to MicroPython...", ".code-output");
       const reader = await port.readable.getReader();
       setReader(reader);
     };
@@ -35,16 +35,16 @@ export const Repl = () => {
       await port?.close();
       setReader(null);
       setPort(null);
-      appendPara("Disconnected from MicroPython", ".code-output");
+      appendContent("Disconnected from MicroPython", ".code-output");
     } catch (error) {
       console.log(error);
-      appendPara("Error disconnecting from MicroPython", ".code-output");
+      appendContent("Error disconnecting from MicroPython", ".code-output");
     }
   };
 
   const onEnterPress = async (command: string) => {
     if (!port) {
-      appendPara("Please connect to MicroPython first.", ".code-output");
+      appendContent("Please connect to MicroPython first.", ".code-output");
       return;
     }
 
@@ -64,13 +64,13 @@ export const Repl = () => {
       while (reader && true) {
         const { value, done } = await reader.read();
         if (done) {
-          appendPara("done", ".code-output");
+          appendContent("done", ".code-output");
 
           break;
         }
         if (value) {
           const text = new TextDecoder().decode(value);
-          appendPara(text, ".code-output");
+          appendContent(text, ".code-output");
         }
       }
     } catch (error) {

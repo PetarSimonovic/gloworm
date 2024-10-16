@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { scrollIntoView } from "../../lib/displayHelper";
 
 import "./CodeInput.scss";
 
@@ -15,7 +16,8 @@ export const CodeInput = ({ onEnterPress, connected }: CodeInputProps) => {
   };
 
   const addLineBreakToCode = () => {
-    setCode((prev) => prev + "\n");
+    setCode((prev) => prev + "\n\n");
+    scrollIntoView(".code-input");
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
