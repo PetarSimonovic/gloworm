@@ -36,3 +36,7 @@ led.toggle()
 ```
 
 Subsequent calls to `led.toggle()` should make the light go on and off.
+
+## Disconnecting
+
+Click the disconnect button to disconnect from the board.
