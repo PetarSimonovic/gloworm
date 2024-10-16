@@ -4,7 +4,7 @@ Slow Worm is an in-browser tool that uses the [Web Serial API](https://developer
 
 It's a work in progress and the Web Serial API itself is an exprimental feature that isn't compatible with all browsers.
 
-Chrome offers full support.
+Chrome is recommended.
 
 ## Installation
 
