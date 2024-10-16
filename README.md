@@ -53,7 +53,7 @@ Click the disconnect button to disconnect from the board.
 
 ## Forthcoming work
 
-- String indentation to help format MicroPython code (string indentation works at the moment but it's tempremental)
+- Formatting help to indent/unindent MicroPython code (string indentation works at the moment but it's tempremental)
 - More tests, refactoring etc
 - Flickering glowing effects, possibly to indicate errors
 - Accessibility testing/features to adjust colours 
