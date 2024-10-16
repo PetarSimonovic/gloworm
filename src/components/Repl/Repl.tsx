@@ -65,20 +65,17 @@ export const Repl = () => {
         const { value, done } = await reader.read();
         if (done) {
           appendPara("done", ".code-output");
-          scrollIntoView(".code-output");
 
           break;
         }
         if (value) {
           const text = new TextDecoder().decode(value);
           appendPara(text, ".code-output");
-          scrollIntoView(".code-output");
         }
       }
     } catch (error) {
       console.error("Error reading from serial port:", error);
     } finally {
-      console.log("Releasing locks");
       await reader?.releaseLock();
       await writer?.releaseLock();
     }

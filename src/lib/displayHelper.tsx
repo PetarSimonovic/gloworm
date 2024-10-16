@@ -3,6 +3,7 @@ export const appendPara = (command: string, element: string) => {
   newParagraph.textContent = command;
   const codeOutput = document.querySelector(element);
   codeOutput?.appendChild(newParagraph);
+  scrollIntoView(element);
 };
 
 export const scrollIntoView = (element: string) => {
