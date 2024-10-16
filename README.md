@@ -2,11 +2,9 @@
 
 Slow Worm is an in-browser tool that uses the Web Serial API to connect and code MicroPython boards.
 
-It's a work in progress and the Web Serial API itself is an exprimental feature that isn't compatible with all browsers. 
+It's a work in progress and the Web Serial API itself is an exprimental feature that isn't compatible with all browsers.
 
 Chrome offers full support.
-
-
 
 ## Installation
 
@@ -43,8 +41,7 @@ led.toggle()
 
 Subsequent calls to `led.toggle()` should make the light go on and off.
 
-MicroPython uses indentation to delineate blocks of code. Slow Worm doesn't yet offer any formatting help here, so just try to count the number of spaces you've used to indent. 
-
+MicroPython uses indentation to delineate blocks of code. Slow Worm doesn't yet offer any formatting help here, so just try to count the number of spaces you've used to indent.
 
 ## Disconnecting
 
@@ -55,4 +52,3 @@ Click the disconnect button to disconnect from the board.
 - string indentation to help format MicroPython code (string indentation works at the moment but it's tempremental)
 - more tests, refactoring etc
 - flickering glowing effects, possibly to indicate errors
-  
