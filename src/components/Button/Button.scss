@@ -2,23 +2,23 @@
   width: 10rem;
   line-height: 1.5rem;
   background: linear-gradient(145deg, #3a3a3a, #1a1a1a);
-  border: 2px solid #00ff00; /* Green border */
+  border: grey; /* Green border */
   border-radius: 10px;
   box-shadow: 5px 5px 15px #000000, -5px -5px 15px #4a4a4a, 0 0 10px #00ff00; /* Add green glow */
-  color: #00ff00; /* Green text color */
+  color: whitesmoke;
   cursor: pointer;
   display: inline-block;
-  font-family: "Courier New", Courier, monospace; /* IDE-like font */
   font-size: 16px;
   font-weight: bold;
   padding: 10px 20px;
   text-align: center;
   transition: all 0.3s ease;
   outline: none;
+  transition: color 2s ease-in-out; /* Add transition for box-shadow */
+  transition: border 2s ease-in-out; /* Add transition for box-shadow */
 
-  &:hover {
+  &--connected {
     outline: none;
-    border: 2px solid #00ff00; /* Ensure border remains green */
 
     background: linear-gradient(145deg, #1a1a1a, #3a3a3a);
     box-shadow: 5px 5px 15px #4a4a4a, -5px -5px 15px #000000, 0 0 20px #00ff00,

@@ -18,7 +18,6 @@
     "@happy-dom/global-registrator": "^15.7.3",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
-    "@types/bun": "^1.1.8",
     "@types/dom-serial": "^1.0.6",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

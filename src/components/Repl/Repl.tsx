@@ -16,11 +16,31 @@ export const Repl = () => {
       if (!port) {
         return;
       }
+      appendPara("Connected to MicroPython...", ".code-output");
       const reader = await port.readable.getReader();
       setReader(reader);
     };
     getReader();
   }, [port]);
+
+  const connectToPort = async () => {
+    const obtainedPort = await navigator.serial.requestPort();
+    await obtainedPort.open({ baudRate: 115200 });
+    setPort(obtainedPort);
+  };
+
+  const disconnectFromPort = async () => {
+    try {
+      await reader?.releaseLock();
+      await port?.close();
+      setReader(null);
+      setPort(null);
+      appendPara("Disconnected from MicroPython", ".code-output");
+    } catch (error) {
+      console.log(error);
+      appendPara("Error disconnecting from MicroPython", ".code-output");
+    }
+  };
 
   const onEnterPress = async (command: string) => {
     if (!port) {
@@ -62,12 +82,12 @@ export const Repl = () => {
     }
   };
 
-  const onClickConnect = async () => {
-    appendPara("Connected to MicroPython...", ".code-output");
-    const obtainedPort = await navigator.serial.requestPort();
-    console.log(obtainedPort);
-    await obtainedPort.open({ baudRate: 115200 });
-    setPort(obtainedPort);
+  const onClickHandleConnection = async () => {
+    if (port) {
+      disconnectFromPort();
+    } else {
+      connectToPort();
+    }
   };
 
   return (
@@ -81,7 +101,8 @@ export const Repl = () => {
       <CodeOutput connected={!!port} />
       <div className="repl__control-panel">
         <Button
-          onClick={onClickConnect}
+          connected={!!port}
+          onClick={onClickHandleConnection}
           label={!port ? "Connect" : "Disconnect"}
         />
       </div>
