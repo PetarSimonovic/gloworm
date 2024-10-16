@@ -14,11 +14,18 @@ export const Repl = () => {
       appendPara("Please connect to MicroPython first.", ".code-output");
       return;
     }
+
     const writer = await port.writable.getWriter();
-    const reader = await port.readable.getReader();
+    let reader;
+    try {
+      reader = await port.readable.getReader();
+    } catch (error) {
+      console.log(error);
+    }
     const encoder = new TextEncoder();
     await writer.write(encoder.encode(command + "\r\n"));
-    writer.releaseLock();
+    await writer.releaseLock();
+    if (!reader) return;
     try {
       while (true) {
         const { value, done } = await reader.read();
@@ -35,13 +42,13 @@ export const Repl = () => {
     } catch (error) {
       console.error("Error reading from serial port:", error);
     } finally {
-      reader?.releaseLock();
-      writer?.releaseLock();
+      await reader?.releaseLock();
+      await writer?.releaseLock();
     }
   };
 
   const onClickConnect = async () => {
-    appendPara("Connecting to MicroPython...", ".code-output");
+    appendPara("Connected to MicroPython...", ".code-output");
     const obtainedPort = await navigator.serial.requestPort();
     console.log(obtainedPort);
     await obtainedPort.open({ baudRate: 115200 });
@@ -52,7 +59,10 @@ export const Repl = () => {
     <div className="repl">
       <CodeInput onEnterPress={onEnterPress} connected={!!port} />
       <CodeOutput connected={!!port} />
-      <Button onClick={onClickConnect} label="Connect to MicroPython" />
+      <Button
+        onClick={onClickConnect}
+        label={!port ? "Connect to MicroPython" : "Disconnect from MicroPython"}
+      />
     </div>
   );
 };

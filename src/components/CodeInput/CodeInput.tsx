@@ -17,6 +17,7 @@ export const CodeInput = ({ onEnterPress, connected }: CodeInputProps) => {
   const addLineBreakToCode = () => {
     setCode((prev) => prev + "\n");
   };
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();

@@ -1,6 +1,6 @@
 .code-input {
-  width: 80vw;
-  height: 30vw;
+  height: 10vw;
+  width: 50vw;
   padding: 2rem;
   font-family: "Courier New", Courier, monospace; /* IDE-like font */
   font-size: 16px; /* Adjust font size as needed */
@@ -11,6 +11,8 @@
   resize: none; /* Prevent resizing */
   text-shadow: 0 0 3px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00; /* Glowing effect */
   transition: box-shadow 2s ease-in-out; /* Add transition for box-shadow */
+  border: none;
+  outline: none;
 
   &::placeholder {
     color: #4c566a; /* Placeholder color */
