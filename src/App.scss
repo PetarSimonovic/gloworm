@@ -1,5 +1,16 @@
+:root {
+  --font-family: "Courier New", Courier, monospace;
+  --eigengrau: #16161d;
+  --amstrad-grey: #333333;
+  --disconnected-grey: #4a4a4a; /* Darkish grey */
+  --slowworm-green: #00ff00;
+  --slowworm-blue: #0000aa;
+  --slowworm-yellow: #ffff55;
+}
+
 body {
-  background-color: #2e2e2e; /* Light stony grey */
+  background-color: var(--amstrad-grey); /* Light stony grey */
+  font-family: var(--font-family);
 }
 
 #root {

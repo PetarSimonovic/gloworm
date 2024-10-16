@@ -4,4 +4,32 @@
   height: 100%;
   width: 100%;
   gap: 5rem;
+
+  .__control-panel {
+    justify-content: space-between;
+  }
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--disconnected-grey);
+  transition: text-shadow 2s ease-in-out; /* Add transition for box-shadow */
+  transition: color 2s ease-in-out; /* Add transition for box-shadow */
+
+  &--disconnected {
+    text-shadow: -1px -1px 0 var(--disconnected-grey),
+      1px -1px 0 var(--disconnected-grey), -1px 1px 0 var(--disconnected-grey),
+      1px 1px 0 var(--disconnected-grey);
+  }
+
+  &--connected {
+    color: var(--eigengrau);
+    text-shadow: -1px -1px 0 var(--slowworm-green),
+      1px -1px 0 var(--slowworm-green), -1px 1px 0 var(--slowworm-green),
+      1px 1px 0 var(--slowworm-green), 0 0 5px var(--slowworm-green),
+      0 0 10px var(--slowworm-green), 0 0 15px var(--slowworm-green),
+      0 0 20px var(--slowworm-green), 0 0 25px var(--slowworm-green),
+      0 0 30px var(--slowworm-green), 0 0 35px var(--slowworm-green);
+  }
 }

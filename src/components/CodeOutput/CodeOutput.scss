@@ -1,15 +1,17 @@
 .code-output {
+  background-color: var(--disconnected-grey);
   height: 10vw; /* Adjust height as needed */
-  font-family: "Courier New", Courier, monospace; /* IDE-like font */
   font-size: 16px; /* Adjust font size as needed */
-  background-color: #0000aa; /* Dark background color */
-  color: #ffff55; /* Light text color */
+  color: var(--slowworm-yellow); /* Light text color */
   overflow: auto; /* Enable scrolling */
   white-space: pre; /* Preserve whitespace */
   resize: none; /* Prevent resizing */
-  text-shadow: 0 0 3px #ffff55, 0 0 10px #ffff55, 0 0 15px #ffff55; /* Glowing effect */
+  text-shadow: 0 0 3px var(--slowworm-yellow), 0 0 10px var(--slowworm-yellow),
+    0 0 15px var(--slowworm-yellow); /* Glowing effect */
   text-align: inline-start;
   transition: box-shadow 2s ease-in-out; /* Add transition for box-shadow */
+  transition: background 2s ease-in-out; /* Add transition for box-shadow */
+
   padding: 2rem;
 
   &::placeholder {
@@ -20,7 +22,8 @@
   &--connected {
     outline: none;
     box-shadow: 5px 5px 25px #4a4a4a, -5px -5px 25px #000000, 0 0 25px #00ff00,
-      0 0 35px #ffff55;
+      0 0 35px var(--slowworm-yellow);
+    background-color: #0000aa; /* Dark background color */
   }
 
   p {

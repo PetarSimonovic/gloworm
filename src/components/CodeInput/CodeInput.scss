@@ -1,16 +1,17 @@
 .code-input {
+  background-color: var(--disconnected-grey);
   height: 10vw;
   width: 50vw;
   padding: 2rem;
-  font-family: "Courier New", Courier, monospace; /* IDE-like font */
   font-size: 16px; /* Adjust font size as needed */
-  background-color: #16161d; /* Dark background color */
-  color: #00ff00; /* Light text color */
+  color: var(--slowworm-green); /* Light text color */
   overflow: auto; /* Enable scrolling */
   white-space: pre; /* Preserve whitespace */
   resize: none; /* Prevent resizing */
-  text-shadow: 0 0 3px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00; /* Glowing effect */
+  text-shadow: 0 0 3px var(--slowworm-green), 0 0 10px var(--slowworm-green),
+    0 0 15px var(--slowworm-green); /* Glowing effect */
   transition: box-shadow 2s ease-in-out; /* Add transition for box-shadow */
+  transition: background-color 2s ease-in-out;
   border: none;
   outline: none;
 
@@ -20,7 +21,8 @@
 
   &--connected {
     outline: none;
-    box-shadow: 5px 5px 25px #4a4a4a, -5px -5px 25px #000000, 0 0 25px #00ff00,
-      0 0 35px #00ff00; /* Increase glow on hover */
+    background-color: #16161d; /* Dark background color */
+    box-shadow: 5px 5px 25px #4a4a4a, -5px -5px 25px #000000,
+      0 0 25px var(--slowworm-green), 0 0 35px var(--slowworm-green); /* Increase glow on hover */
   }
 }

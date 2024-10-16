@@ -72,12 +72,19 @@ export const Repl = () => {
 
   return (
     <div className="repl">
+      <h1
+        className={`title ${port ? "title--connected" : "title--disconnected"}`}
+      >
+        Slow Worm{" "}
+      </h1>
       <CodeInput onEnterPress={onEnterPress} connected={!!port} />
       <CodeOutput connected={!!port} />
-      <Button
-        onClick={onClickConnect}
-        label={!port ? "Connect to MicroPython" : "Disconnect from MicroPython"}
-      />
+      <div className="repl__control-panel">
+        <Button
+          onClick={onClickConnect}
+          label={!port ? "Connect" : "Disconnect"}
+        />
+      </div>
     </div>
   );
 };
