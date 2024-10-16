@@ -45,7 +45,7 @@ led.toggle()
 
 Subsequent calls to `led.toggle()` should make the light go on and off.
 
-MicroPython uses indentation to delineate blocks of code. Slow Worm doesn't yet offer any formatting help here, so just try to count the number of spaces you've used to indent.
+MicroPython uses indentation to delineate blocks of code. Slow Worm doesn't yet offer any formatting help here.
 
 ## Disconnecting
 
