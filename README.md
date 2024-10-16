@@ -1,6 +1,6 @@
 # Slow Worm
 
-Slow Worm is an in-browser tool that uses the Web Serial API to connect and code MicroPython boards.
+Slow Worm is an in-browser tool that uses the [Web Serial API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API)_ to connect and code MicroPython boards.
 
 It's a work in progress and the Web Serial API itself is an exprimental feature that isn't compatible with all browsers.
 
