@@ -8,6 +8,19 @@ import "./Repl.scss";
 
 export const Repl = () => {
   const [port, setPort] = useState<SerialPort | null>(null);
+  const [reader, setReader] =
+    useState<ReadableStreamDefaultReader<Uint8Array> | null>(null);
+
+  useEffect(() => {
+    const getReader = async () => {
+      if (!port) {
+        return;
+      }
+      const reader = await port.readable.getReader();
+      setReader(reader);
+    };
+    getReader();
+  }, [port]);
 
   const onEnterPress = async (command: string) => {
     if (!port) {
@@ -16,18 +29,19 @@ export const Repl = () => {
     }
 
     const writer = await port.writable.getWriter();
-    let reader;
-    try {
-      reader = await port.readable.getReader();
-    } catch (error) {
-      console.log(error);
+    if (!reader) {
+      try {
+        const obtainedReader = await port.readable.getReader();
+        setReader(obtainedReader);
+      } catch (error) {
+        console.log(error);
+      }
     }
     const encoder = new TextEncoder();
     await writer.write(encoder.encode(command + "\r\n"));
     await writer.releaseLock();
-    if (!reader) return;
     try {
-      while (true) {
+      while (reader && true) {
         const { value, done } = await reader.read();
         if (done) {
           appendPara("done", ".code-output");
@@ -42,6 +56,7 @@ export const Repl = () => {
     } catch (error) {
       console.error("Error reading from serial port:", error);
     } finally {
+      console.log("Releasing locks");
       await reader?.releaseLock();
       await writer?.releaseLock();
     }
