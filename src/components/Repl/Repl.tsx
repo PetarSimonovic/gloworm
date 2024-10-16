@@ -50,35 +50,39 @@ export const Repl = () => {
     setPort(obtainedPort);
   };
 
-  const disconnectFromPort = async () => {
+  const releaseWriter = async () => {
+    await writer?.releaseLock();
+    setWriter(null);
+  };
+
+  const releaseReader = async () => {
+    await reader?.releaseLock();
+    setReader(null);
+  };
+
+  const releasePort = async () => {
+    await port?.close();
+    setPort(null);
+    appendContent("Disconnected from MicroPython", ".code-output");
+  };
+
+  const disconnectFromDevice = async () => {
     try {
-      await reader?.releaseLock();
-      await writer?.releaseLock();
-      await port?.close();
-      setReader(null);
-      setWriter(null);
-      setPort(null);
-      appendContent("Disconnected from MicroPython", ".code-output");
+      await releaseWriter();
+      await releaseReader();
+      await releasePort();
     } catch (error) {
       console.log(error);
       appendContent("Error disconnecting from MicroPython", ".code-output");
     }
   };
 
-  const sendCodeToBoard = async (command: string) => {
-    if (!writer && !reader) {
-      appendContent("Please connect to MicroPython first.", ".code-output");
-      return;
-    }
-
-    const encoder = new TextEncoder();
-    await writer?.write(encoder.encode(command + "\r\n"));
+  const readFromDevice = async () => {
     try {
       while (reader && true) {
         const { value, done } = await reader.read();
         if (done) {
           appendContent("done", ".code-output");
-
           break;
         }
         if (value) {
@@ -91,9 +95,20 @@ export const Repl = () => {
     }
   };
 
+  const sendCodeToBoard = async (command: string) => {
+    if (!writer && !reader) {
+      appendContent("Please connect to MicroPython first.", ".code-output");
+      return;
+    }
+
+    const encoder = new TextEncoder();
+    await writer?.write(encoder.encode(command + "\r\n"));
+    await readFromDevice();
+  };
+
   const onClickHandleConnection = async () => {
     if (port) {
-      disconnectFromPort();
+      disconnectFromDevice();
     } else {
       connectToPort();
     }
