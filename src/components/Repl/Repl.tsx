@@ -12,17 +12,37 @@ export const Repl = () => {
   const [reader, setReader] =
     useState<ReadableStreamDefaultReader<Uint8Array> | null>(null);
 
+  const [writer, setWriter] =
+    useState<WritableStreamDefaultWriter<Uint8Array> | null>(null);
+
   useEffect(() => {
     const getReader = async () => {
       if (!port) {
         return;
       }
-      appendContent("Connected to MicroPython...", ".code-output");
       const reader = await port.readable.getReader();
       setReader(reader);
     };
     getReader();
   }, [port]);
+
+  useEffect(() => {
+    const getWriter = async () => {
+      if (!port) {
+        return;
+      }
+      const writer = await port.writable.getWriter();
+      setWriter(writer);
+    };
+    getWriter();
+  }, [port]);
+
+  useEffect(() => {
+    if (!reader || !writer) {
+      return;
+    }
+    appendContent("Connected to MicroPython", ".code-output");
+  }, [reader, writer]);
 
   const connectToPort = async () => {
     const obtainedPort = await navigator.serial.requestPort();
@@ -33,8 +53,10 @@ export const Repl = () => {
   const disconnectFromPort = async () => {
     try {
       await reader?.releaseLock();
+      await writer?.releaseLock();
       await port?.close();
       setReader(null);
+      setWriter(null);
       setPort(null);
       appendContent("Disconnected from MicroPython", ".code-output");
     } catch (error) {
@@ -43,24 +65,14 @@ export const Repl = () => {
     }
   };
 
-  const onEnterPress = async (command: string) => {
-    if (!port) {
+  const sendCodeToBoard = async (command: string) => {
+    if (!writer && !reader) {
       appendContent("Please connect to MicroPython first.", ".code-output");
       return;
     }
 
-    const writer = await port.writable.getWriter();
-    if (!reader) {
-      try {
-        const obtainedReader = await port.readable.getReader();
-        setReader(obtainedReader);
-      } catch (error) {
-        console.log(error);
-      }
-    }
     const encoder = new TextEncoder();
-    await writer.write(encoder.encode(command + "\r\n"));
-    await writer.releaseLock();
+    await writer?.write(encoder.encode(command + "\r\n"));
     try {
       while (reader && true) {
         const { value, done } = await reader.read();
@@ -76,9 +88,6 @@ export const Repl = () => {
       }
     } catch (error) {
       console.error("Error reading from serial port:", error);
-    } finally {
-      await reader?.releaseLock();
-      await writer?.releaseLock();
     }
   };
 
@@ -93,7 +102,7 @@ export const Repl = () => {
   return (
     <div className="repl">
       <Heading connected={!!port} />
-      <CodeInput onEnterPress={onEnterPress} connected={!!port} />
+      <CodeInput onEnterPress={sendCodeToBoard} connected={!!port} />
       <CodeOutput connected={!!port} />
       <div className="repl__control-panel">
         <Button
