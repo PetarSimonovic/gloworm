@@ -13,7 +13,8 @@
   padding: 10px 20px;
   text-align: center;
   outline: none;
-  transition: color 2s ease-in-out, border 2s ease-in-out; /* Add transition for box-shadow */
+  transition: outline 2s ease-in-out, box-shadow 2s ease-in-out,
+    text-shadow 2s ease-in-out, color 2s ease-in-out, border 2s ease-in-out; /* Add transition for box-shadow */
   font-family: "Font Awesome 5 Free"; /* Set Font Awesome as the font family */
 
   &--connected {
