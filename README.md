@@ -18,7 +18,7 @@ Connect a Pico to your computer. Click the `connect` button.
 
 When prompted, select `Board in FS mode`.
 
-If the connection is the output pane will stat that it's `Connected to MicroPython`
+If the connection is succesful the output pane will state that it's `Connected to MicroPython`
 
 ## Coding a Pico
 
