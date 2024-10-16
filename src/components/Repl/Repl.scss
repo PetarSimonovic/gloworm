@@ -9,24 +9,3 @@
     justify-content: space-between;
   }
 }
-
-.title {
-  font-size: 2rem;
-  font-weight: bold;
-  color: whitesmoke; /* Light text color */
-  transition: text-shadow 2s ease-in-out, color 2s ease-in-out; /* Add transition for box-shadow */
-
-  &--disconnected {
-    text-shadow: none;
-  }
-
-  &--connected {
-    color: var(--eigengrau);
-    text-shadow: -1px -1px 0 var(--slowworm-green),
-      1px -1px 0 var(--slowworm-green), -1px 1px 0 var(--slowworm-green),
-      1px 1px 0 var(--slowworm-green), 0 0 5px var(--slowworm-green),
-      0 0 10px var(--slowworm-green), 0 0 15px var(--slowworm-green),
-      0 0 20px var(--slowworm-green), 0 0 25px var(--slowworm-green),
-      0 0 30px var(--slowworm-green), 0 0 35px var(--slowworm-green);
-  }
-}

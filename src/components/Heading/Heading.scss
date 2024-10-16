@@ -1,0 +1,31 @@
+.slowworm-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  color: whitesmoke; /* Light text color */
+  font-family: "Font Awesome 5 Free"; /* Set Font Awesome as the font family */
+  font-weight: 900; /* Required for Font Awesome icons */
+
+  transition: text-shadow 2s ease-in-out, color 2s ease-in-out; /* Add transition for box-shadow */
+
+  .slowworm-heading-icon {
+    font-family: "Font Awesome 5 Free"; /* Ensure it uses the Font Awesome font */
+    font-weight: 900; /* Required for Font Awesome icons */
+    display: inline-block; /* Ensure it displays inline with the text */
+    margin-right: 0.1rem; /* Adjust spacing as needed */
+    transform: scaleX(-1) rotate(-270deg); /* Flip the icon on its vertical axis */
+  }
+
+  &--disconnected {
+    text-shadow: none;
+  }
+
+  &--connected {
+    color: var(--eigengrau);
+    text-shadow: -1px -1px 0 var(--slowworm-green),
+      1px -1px 0 var(--slowworm-green), -1px 1px 0 var(--slowworm-green),
+      1px 1px 0 var(--slowworm-green), 0 0 5px var(--slowworm-green),
+      0 0 10px var(--slowworm-green), 0 0 15px var(--slowworm-green),
+      0 0 20px var(--slowworm-green), 0 0 25px var(--slowworm-green),
+      0 0 30px var(--slowworm-green), 0 0 35px var(--slowworm-green);
+  }
+}

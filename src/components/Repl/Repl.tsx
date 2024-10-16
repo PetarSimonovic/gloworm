@@ -1,8 +1,9 @@
 import { CodeInput } from "../CodeInput/CodeInput";
+import { Heading } from "../Heading/Heading";
 import { useState, useEffect } from "react";
 import { CodeOutput } from "../CodeOutput/CodeOutput";
 import { Button } from "../Button/Button";
-import { appendContent, scrollIntoView } from "../../lib/displayHelper";
+import { appendContent } from "../../lib/displayHelper";
 
 import "./Repl.scss";
 
@@ -91,11 +92,7 @@ export const Repl = () => {
 
   return (
     <div className="repl">
-      <h1
-        className={`title ${port ? "title--connected" : "title--disconnected"}`}
-      >
-        Slow Worm{" "}
-      </h1>
+      <Heading connected={!!port} />
       <CodeInput onEnterPress={onEnterPress} connected={!!port} />
       <CodeOutput connected={!!port} />
       <div className="repl__control-panel">
