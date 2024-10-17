@@ -29,11 +29,11 @@
   }
 
   &--connected {
-    filter: drop-shadow(0 0 3px var(--slowworm-green))
+    filter: drop-shadow(0 0 1px var(--slowworm-green))
+      drop-shadow(0 0 3px var(--slowworm-green))
       drop-shadow(0 0 6px var(--slowworm-green))
-      drop-shadow(0 0 9px var(--slowworm-green))
-      drop-shadow(0 0 12px var(--slowworm-green))
-      drop-shadow(0 0 15px var(--slowworm-green));
+      drop-shadow(0 0 9px var(--slowworm-yellow))
+      drop-shadow(0 0 12px var(--slowworm-yellow));
     .slowworm-heading-icon {
       &--face-right {
         clip-path: inset(0 0 0 33%); /* Clip the right third of the icon */
