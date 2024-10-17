@@ -1,6 +1,6 @@
-# Slow Worm
+# SloWorm
 
-Slow Worm is an in-browser tool that uses the [Web Serial API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API) to connect and code MicroPython boards.
+SloWorm is an in-browser tool that uses the [Web Serial API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API) to connect and code MicroPython boards.
 
 It's a work in progress and has been developed using a Raspberry Pi Pico. No other types of board have been tested.
 
@@ -16,7 +16,7 @@ Chrome is recommended.
  npm run dev
 ```
 
-Slow Worm should be available on http://localhost:5173/
+SloWorm should be available on http://localhost:5173/
 
 ## Connecting a MicroPython board
 
@@ -45,7 +45,7 @@ led.toggle()
 
 Subsequent calls to `led.toggle()` should make the light go on and off.
 
-MicroPython uses indentation to delineate blocks of code. Slow Worm doesn't yet offer any formatting help here.
+MicroPython uses indentation to delineate blocks of code. SloWorm doesn't yet offer any formatting help here.
 
 ## Disconnecting
 
