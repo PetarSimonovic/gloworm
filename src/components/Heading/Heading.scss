@@ -4,15 +4,24 @@
   color: whitesmoke; /* Light text color */
   font-family: "Font Awesome 5 Free"; /* Set Font Awesome as the font family */
   font-weight: 900; /* Required for Font Awesome icons */
-
-  transition: text-shadow 2s ease-in-out, color 2s ease-in-out; /* Add transition for box-shadow */
+  transition: margin 2s ease-in-out, text-shadow 2s ease-in-out,
+    color 2s ease-in-out, filter 2s ease-in-out, drop-shadow 2s ease-in-out,
+    color 2s ease-in-out; /* Add transition for box-shadow */
 
   .slowworm-heading-icon {
     font-family: "Font Awesome 5 Free"; /* Ensure it uses the Font Awesome font */
     font-weight: 900; /* Required for Font Awesome icons */
-    display: inline-block; /* Ensure it displays inline with the text */
-    margin-right: 0.1rem; /* Adjust spacing as needed */
-    transform: scaleX(-1) rotate(-270deg); /* Flip the icon on its vertical axis */
+    display: inline-block;
+
+    &--face-right {
+      transform: scaleX(-1); /* Flip the icon on its vertical axis */
+      margin: 0;
+    }
+
+    &--face-left {
+      margin: 0;
+      padding: 0;
+    }
   }
 
   &--disconnected {
@@ -20,11 +29,21 @@
   }
 
   &--connected {
-    text-shadow: -1px -1px 0 var(--slowworm-green),
-      1px -1px 0 var(--slowworm-green), -1px 1px 0 var(--slowworm-green),
-      1px 1px 0 var(--slowworm-green), 0 0 5px var(--slowworm-green),
-      0 0 10px var(--slowworm-green), 0 0 15px var(--slowworm-green),
-      0 0 20px var(--slowworm-green), 0 0 25px var(--slowworm-green),
-      0 0 30px var(--slowworm-green), 0 0 35px var(--slowworm-green);
+    filter: drop-shadow(0 0 3px var(--slowworm-green))
+      drop-shadow(0 0 6px var(--slowworm-green))
+      drop-shadow(0 0 9px var(--slowworm-green))
+      drop-shadow(0 0 12px var(--slowworm-green))
+      drop-shadow(0 0 15px var(--slowworm-green));
+    .slowworm-heading-icon {
+      &--face-right {
+        clip-path: inset(0 0 0 33%); /* Clip the right third of the icon */
+        // move further to the right
+        margin-right: -0.7rem;
+      }
+      &--face-left {
+        clip-path: inset(0 0 0 33%); /* Clip the right third of the icon */
+        margin-left: -0.7rem;
+      }
+    }
   }
 }

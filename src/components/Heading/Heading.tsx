@@ -12,8 +12,14 @@ export const Heading = ({ connected }: HeadingProps) => {
         connected ? "slowworm-heading--connected" : ""
       }`}
     >
-      <span className="slowworm-heading-icon">{slowWormUnicode}</span>
-      low Worm
+      Slo
+      <span className="slowworm-heading-icon slowworm-heading-icon--face-right">
+        {slowWormUnicode}
+      </span>
+      <span className="slowworm-heading-icon slowworm-heading-icon--face-left">
+        {slowWormUnicode}
+      </span>
+      orm
     </div>
   );
 };
