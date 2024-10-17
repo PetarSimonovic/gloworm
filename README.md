@@ -13,7 +13,7 @@ Chrome is recommended.
 ```bash
  npm install
 
- npm run dev
+ npm run start
 ```
 
 SloWorm should be available on http://localhost:5173/
