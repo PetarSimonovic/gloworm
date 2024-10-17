@@ -1,5 +1,5 @@
 .slowworm-heading {
-  font-size: 2rem;
+  font-size: 4rem;
   font-weight: bold;
   color: whitesmoke; /* Light text color */
   font-family: "Font Awesome 5 Free"; /* Set Font Awesome as the font family */
@@ -38,11 +38,11 @@
       &--face-right {
         clip-path: inset(0 0 0 33%); /* Clip the right third of the icon */
         // move further to the right
-        margin-right: -0.7rem;
+        margin-right: -1.5rem;
       }
       &--face-left {
         clip-path: inset(0 0 0 33%); /* Clip the right third of the icon */
-        margin-left: -0.7rem;
+        margin-left: -1.5rem;
       }
     }
   }
