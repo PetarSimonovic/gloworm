@@ -16,7 +16,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
-    "@happy-dom/global-registrator": "^15.7.3",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
     "@types/dom-serial": "^1.0.6",
@@ -27,7 +26,6 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
-    "happy-dom": "^15.7.3",
     "sass-embedded": "^1.78.0",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
