@@ -1,15 +1,26 @@
-import { expect, describe, test, mock, beforeEach } from "bun:test";
 import { render, fireEvent } from "@testing-library/react";
 
 import { CodeInput } from "./CodeInput";
-const onEnterPress = mock();
+const onEnterPress = jest.fn();
 
 let container: HTMLElement;
 let textarea: HTMLTextAreaElement;
 
+beforeAll(() => {
+  window.HTMLElement.prototype.scrollTo = jest.fn();
+
+  const codeOutput = document.createElement("div");
+  codeOutput.className = "code-output";
+  // Mock scrollTo so it doesn't throw in jsdom
+  codeOutput.scrollTo = jest.fn();
+  document.body.appendChild(codeOutput);
+});
+
 describe("CodeInput", () => {
   beforeEach(() => {
-    const rendered = render(<CodeInput onEnterPress={onEnterPress} />);
+    const rendered = render(
+      <CodeInput onEnterPress={onEnterPress} connected={false} />
+    );
     container = rendered.container;
     textarea = container.querySelector("textarea")!;
   });
@@ -23,7 +34,7 @@ describe("CodeInput", () => {
       expect(textarea!.value).toBe("Hello");
 
       fireEvent.keyDown(textarea!, { key: "Enter" });
-      expect(textarea!.value).toBe("Hello\n");
+      expect(textarea!.value).toBe("Hello\n\n");
     });
 
     test("passes the first line entered to onEnterPress", () => {
