@@ -1,3 +1,4 @@
+import { Repl } from "./Repl";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import { TextEncoder, TextDecoder } from "util";
 import {
@@ -11,8 +12,6 @@ import {
   mockWriterReleaseLock,
   mockReaderReleaseLock,
 } from "../../../__mocks__/mockSerial";
-
-import { Repl } from "./Repl";
 
 let container: HTMLElement;
 
@@ -101,7 +100,6 @@ describe("Repl", () => {
 
     await waitFor(() => {
       expect(button?.textContent).toBe("Connect");
-
       expect(mockClose).toHaveBeenCalled();
       expect(mockWriterReleaseLock).toHaveBeenCalled();
       expect(mockReaderReleaseLock).toHaveBeenCalled();

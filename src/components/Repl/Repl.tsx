@@ -74,7 +74,15 @@ export const Repl = () => {
     } catch (error) {
       console.log(error);
       appendContent("Error disconnecting from MicroPython", ".code-output");
+    } finally {
+      purgePorts();
     }
+  };
+
+  const purgePorts = () => {
+    setReader(null);
+    setWriter(null);
+    setPort(null);
   };
 
   const readFromDevice = async () => {
@@ -92,6 +100,7 @@ export const Repl = () => {
       }
     } catch (error) {
       console.error("Error reading from serial port:", error);
+      purgePorts();
     }
   };
 
