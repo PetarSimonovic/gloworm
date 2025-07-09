@@ -13,6 +13,12 @@
     font-weight: 900; /* Required for Font Awesome icons */
     display: inline-block;
 
+    &--face-right,
+    &--face-left {
+      transition: margin 1.5s ease, clip-path 1.3s ease;
+      clip-path: inset(0 0 0 0);
+    }
+
     &--face-right {
       transform: scaleX(-1); /* Flip the icon on its vertical axis */
       margin: 0;

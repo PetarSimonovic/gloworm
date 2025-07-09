@@ -11,6 +11,7 @@
   transition: background-color 2s ease-in-out, box-shadow 2s ease-in-out,
     text-shadow 2s ease-in-out;
   padding: 2rem;
+  border-radius: 15px;
 
   &::placeholder {
     color: #4c566a; /* Placeholder color */
