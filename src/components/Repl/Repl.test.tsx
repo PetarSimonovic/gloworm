@@ -1,55 +1,29 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import { TextEncoder, TextDecoder } from "util";
+import {
+  setupMockSerial,
+  mockOpen,
+  mockClose,
+  mockGetReader,
+  mockGetWriter,
+  mockWrite,
+  mockRead,
+  mockWriterReleaseLock,
+  mockReaderReleaseLock,
+} from "../../../__mocks__/mockSerial";
 
 import { Repl } from "./Repl";
 
 let container: HTMLElement;
-let mockClose: jest.Mock;
-let mockOpen: jest.Mock;
-let mockGetReader: jest.Mock;
-let mockGetWriter: jest.Mock;
-let mockWriterReleaseLock: jest.Mock;
-let mockReaderReleaseLock: jest.Mock;
-let mockWrite: jest.Mock;
-let mockRead: jest.Mock;
 
 global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder;
+
+// The node TextDecoder is not exactly the same type as the DOM TextDecoder
+// When we use 'typeof' we're telling TypeScript to "trust me, this is compatible"
+global.TextDecoder = TextDecoder as typeof globalThis.TextDecoder;
 
 beforeAll(() => {
-  // port.open and port.close are async so the mocks need
-  // to return a Promise
-  mockClose = jest.fn().mockResolvedValue(undefined);
-  mockOpen = jest.fn().mockResolvedValue(undefined);
-
-  mockWrite = jest.fn();
-  mockRead = jest.fn();
-
-  mockReaderReleaseLock = jest.fn();
-  mockWriterReleaseLock = jest.fn();
-  mockGetReader = jest
-    .fn()
-    .mockReturnValue({ releaseLock: mockReaderReleaseLock, read: mockRead });
-
-  mockGetWriter = jest
-    .fn()
-    .mockReturnValue({ releaseLock: mockWriterReleaseLock, write: mockWrite });
-
-  Object.defineProperty(global.navigator, "serial", {
-    value: {
-      requestPort: jest.fn().mockResolvedValue({
-        open: mockOpen,
-        readable: {
-          getReader: mockGetReader,
-        },
-        writable: {
-          getWriter: mockGetWriter,
-        },
-        close: mockClose,
-      }),
-    },
-    configurable: true,
-  });
+  setupMockSerial();
   window.HTMLElement.prototype.scrollTo = jest.fn();
 
   const codeOutput = document.createElement("div");
