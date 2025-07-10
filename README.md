@@ -8,7 +8,13 @@ The Web Serial API itself is an exprimental feature that isn't compatible with a
 
 Chrome is recommended.
 
-## Installation
+## Try it out
+
+You'll need a MicroPython controller (the app has been tested only with a Raspberry Pi Pico).
+
+Visit https://petarsimonovic.github.io/sloworm/
+
+or run it locally
 
 ```bash
  npm install
@@ -19,6 +25,8 @@ Chrome is recommended.
 SloWorm should be available on http://localhost:5173/
 
 ## Connecting a MicroPython board
+
+Connect your computer to a MicroPythobn board (SloWorm has been tested only with a Raspberry Pi Pico)
 
 Click the `connect` button.
 
@@ -32,7 +40,7 @@ Type a line of code in the input pane at the top of the screen then press return
 
 The board's response will appear in the Output pane below.
 
-Making a board's onboard LED blink is the MicroPython equivalent of "Hello World". 
+Making a board's onboard LED blink is the MicroPython equivalent of "Hello World".
 
 Here's how to do it on a Pico.
 
@@ -57,4 +65,4 @@ Click the disconnect button to disconnect from the board.
 - More tests, refactoring etc
 - Flickering glowing effects, possibly to indicate errors
 - Accessibility testing/features to adjust colours
-- Maybe host it somewhere 
+- Maybe host it somewhere
