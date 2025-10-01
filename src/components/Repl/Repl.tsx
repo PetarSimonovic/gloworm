@@ -8,12 +8,18 @@ import { appendContent } from "../../lib/displayHelper";
 import "./Repl.scss";
 
 export const Repl = () => {
+  const [code, setCode] = useState<string[]>([]);
   const [port, setPort] = useState<SerialPort | null>(null);
   const [reader, setReader] =
     useState<ReadableStreamDefaultReader<Uint8Array> | null>(null);
 
   const [writer, setWriter] =
     useState<WritableStreamDefaultWriter<Uint8Array> | null>(null);
+
+  const softReboot = "\x04";
+  const interrupt = "\x03";
+  const carriageReturn = "\r";
+  const newLine = "\n";
 
   useEffect(() => {
     const getReader = async () => {
@@ -48,6 +54,11 @@ export const Repl = () => {
     const obtainedPort = await navigator.serial.requestPort();
     await obtainedPort.open({ baudRate: 115200 });
     setPort(obtainedPort);
+  };
+
+  const handleCodeChange = (value: string) => {
+    setCode(value.split("\n"));
+    console.log(code);
   };
 
   const releaseWriter = async () => {
@@ -85,7 +96,7 @@ export const Repl = () => {
     setPort(null);
   };
 
-  const readFromDevice = async () => {
+  const readFromBoard = async () => {
     try {
       while (reader && true) {
         const { value, done } = await reader.read();
@@ -104,15 +115,21 @@ export const Repl = () => {
     }
   };
 
-  const sendCodeToBoard = async (command: string) => {
+  const sendCodeToBoard = async (code: Array<string>) => {
     if (!writer && !reader) {
       appendContent("Please connect to MicroPython first.", ".code-output");
       return;
     }
 
     const encoder = new TextEncoder();
-    await writer?.write(encoder.encode(command + "\r\n"));
-    await readFromDevice();
+
+    code.forEach(async (line) => {
+      console.log(line);
+      const formattedLine = line + carriageReturn;
+      await writer?.write(encoder.encode(formattedLine));
+    });
+    await writer?.write(encoder.encode(carriageReturn + newLine));
+    await readFromBoard();
   };
 
   const onClickHandleConnection = async () => {
@@ -126,7 +143,15 @@ export const Repl = () => {
   return (
     <div className="repl">
       <Heading connected={!!port} />
-      <CodeInput onEnterPress={sendCodeToBoard} connected={!!port} />
+      <CodeInput handleCodeChange={handleCodeChange} connected={!!port} />
+      <Button
+        connected={!!port}
+        onClick={() => {
+          // Join code lines and send to board
+          sendCodeToBoard(code);
+        }}
+        label={!port ? "" : "Run"}
+      />
       <CodeOutput connected={!!port} />
       <div className="repl__control-panel">
         <Button

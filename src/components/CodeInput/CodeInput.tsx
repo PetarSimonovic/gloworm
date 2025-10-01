@@ -1,45 +1,28 @@
-import { useState } from "react";
-import { scrollIntoView } from "../../lib/displayHelper";
-
+import CodeMirror from "@uiw/react-codemirror";
+import { monokai } from "@uiw/codemirror-theme-monokai";
+import { python } from "@codemirror/lang-python";
 import "./CodeInput.scss";
 
 interface CodeInputProps {
-  onEnterPress: (value: string) => void;
+  handleCodeChange: (value: string) => void;
   connected: boolean;
 }
 
-export const CodeInput = ({ onEnterPress, connected }: CodeInputProps) => {
-  const [code, setCode] = useState("");
-
-  const lastLineOfCode = () => {
-    return code.split("\n").pop() || "";
-  };
-
-  const addLineBreakToCode = () => {
-    setCode((prev) => prev + "\n\n");
-    scrollIntoView(".code-input");
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      addLineBreakToCode();
-      onEnterPress(lastLineOfCode());
-    }
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCode(event.target.value);
-  };
-
+export const CodeInput = ({ handleCodeChange, connected }: CodeInputProps) => {
   return (
     <>
-      <textarea
-        className={`code-input ${connected ? "code-input--connected" : ""}`}
-        onChange={handleChange}
-        value={code}
-        onKeyDown={handleKeyDown}
-      />
+      <div className={`code-input ${connected ? "code-input--connected" : ""}`}>
+        {connected ? (
+          <CodeMirror
+            onChange={handleCodeChange}
+            extensions={[python()]}
+            theme={monokai}
+            value={""}
+          />
+        ) : (
+          "Connect to board"
+        )}
+      </div>
     </>
   );
 };

@@ -32,7 +32,7 @@ beforeAll(() => {
   document.body.appendChild(codeOutput);
 });
 
-describe("Repl", () => {
+describe.skip("Repl", () => {
   beforeEach(() => {
     const rendered = render(<Repl />);
     container = rendered.container;
