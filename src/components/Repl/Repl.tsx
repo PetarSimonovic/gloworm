@@ -11,7 +11,7 @@ import { PortManager } from "../../lib/portManager";
 export const Repl = () => {
   const [portManager] = useState<PortManager>(new PortManager());
   const [code, setCode] = useState<string[]>([]);
-  const [port, setPort] = useState<SerialPort | null>(null);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
 
   // const softReboot = "\x04";
   // const interrupt = "\x03";
@@ -25,30 +25,15 @@ export const Repl = () => {
 
   const handleCodeChange = (value: string) => {
     setCode(value.split("\n"));
-    console.log(code);
   };
 
-  const releasePort = async () => {
-    await port?.close();
-    setPort(null);
-    appendContent("Disconnected from MicroPython", ".code-output");
-  };
-
-  const disconnectFromDevice = async () => {
+  const disconnectFromDevice = () => {
     try {
-      await portManager.releaseWriter();
-      await portManager.releaseReader();
-      await releasePort();
+      portManager.disconnect();
     } catch (error) {
       console.log(error);
       appendContent("Error disconnecting from MicroPython", ".code-output");
-    } finally {
-      purgePorts();
     }
-  };
-
-  const purgePorts = () => {
-    setPort(null);
   };
 
   const readFromBoard = async () => {
@@ -66,7 +51,6 @@ export const Repl = () => {
       }
     } catch (error) {
       console.error("Error reading from serial port:", error);
-      purgePorts();
     }
   };
 
@@ -81,32 +65,35 @@ export const Repl = () => {
   };
 
   const onClickHandleConnection = async () => {
-    if (port) {
+    if (portManager.hasPort()) {
       disconnectFromDevice();
+      setIsConnected(false);
     } else {
-      const obtainedPort = await portManager.connect();
-      setPort(obtainedPort);
+      await portManager.connect();
+      setIsConnected(portManager.hasPort());
     }
   };
 
   return (
     <div className="repl">
-      <Heading connected={!!port} />
-      <CodeInput handleCodeChange={handleCodeChange} connected={!!port} />
-      <Button
-        connected={!!port}
-        onClick={() => {
-          // Join code lines and send to board
-          sendCodeToBoard(code);
-        }}
-        label={!port ? "" : "Run"}
-      />
-      <CodeOutput connected={!!port} />
+      <Heading connected={isConnected} />
+      <CodeInput handleCodeChange={handleCodeChange} connected={isConnected} />
+      {isConnected && (
+        <Button
+          connected={true}
+          onClick={() => {
+            // Join code lines and send to board
+            sendCodeToBoard(code);
+          }}
+          label={"Run"}
+        />
+      )}
+      <CodeOutput connected={isConnected} />
       <div className="repl__control-panel">
         <Button
-          connected={!!port}
+          connected={isConnected}
           onClick={onClickHandleConnection}
-          label={!port ? "Connect" : "Disconnect"}
+          label={isConnected ? "Disconnect" : "Connect"}
         />
       </div>
     </div>

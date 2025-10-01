@@ -29,6 +29,12 @@ export class PortManager {
     return this.port || null;
   }
 
+  public disconnect(): void {
+    this.releaseReader();
+    this.releaseWriter();
+    this.closePort();
+  }
+
   public async read(): Promise<ReadableStreamReadResult<Uint8Array>> {
     return this.reader!.read();
   }
@@ -39,7 +45,7 @@ export class PortManager {
       const formattedLine = line + this.carriageReturn;
       await this.writer?.write(encoder.encode(formattedLine));
     });
-    await this.writer?.write(
+    return await this.writer?.write(
       encoder.encode(this.carriageReturn + this.newLine)
     );
   }
@@ -84,5 +90,10 @@ export class PortManager {
   public releaseWriter(): void {
     this.writer?.releaseLock();
     this.writer = null;
+  }
+
+  public closePort(): void {
+    this.port?.close();
+    this.port = null;
   }
 }
