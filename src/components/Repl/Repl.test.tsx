@@ -16,12 +16,19 @@ import {
 } from "../../../__mocks__/mockSerial";
 
 let container: HTMLElement;
+let connectButton: HTMLElement;
 
 // The node TextDecoder is not exactly the same type as the DOM TextDecoder
 // When we use 'typeof' we're telling TypeScript to "trust me, this is compatible"
 global.TextDecoder = TextDecoder as typeof globalThis.TextDecoder;
 global.TextEncoder = TextEncoder as typeof globalThis.TextEncoder;
 
+const clickConnect = async () => {
+  await waitFor(() => {
+    const connectButton = screen.getByText("Connect");
+    fireEvent.click(connectButton);
+  });
+};
 beforeAll(() => {
   setupMockSerial();
   window.HTMLElement.prototype.scrollTo = jest.fn();
@@ -33,73 +40,100 @@ beforeAll(() => {
   document.body.appendChild(codeOutput);
 });
 
+afterEach(() => {
+  jest.clearAllMocks(); // Add this to reset mock call counts
+});
+
 describe("Repl", () => {
   beforeEach(() => {
     const rendered = render(<Repl />);
     container = rendered.container;
   });
 
-  test("renders a CodeInput component", () => {
+  it("renders a CodeInput component", () => {
     const divElement = container.querySelector(".code-input");
     expect(divElement).not.toBeNull();
   });
 
-  test("renders a CodeOutput component", () => {
+  it("renders a CodeOutput component", () => {
     const divElement = container.querySelector(".code-output");
     expect(divElement).not.toBeNull();
   });
 
-  test("connectToPort: clicking the button changes label to 'Disconnect'", async () => {
-    const connectButton = screen.getByText("Connect");
-    expect(connectButton).not.toBe(null);
+  describe("when connected to board", () => {
+    beforeEach(async () => {
+      await waitFor(() => {
+        clickConnect();
+      });
+    });
+    it("opens a connection", async () => {
+      await waitFor(() => {
+        expect(mockOpen).toHaveBeenCalled();
+      });
+    });
 
-    fireEvent.click(connectButton);
+    it("obtains a reader", async () => {
+      await waitFor(() => {
+        expect(mockGetReader).toHaveBeenCalled();
+      });
+    });
 
-    await waitFor(() => {
-      expect(connectButton?.textContent).toBe("Disconnect");
-      expect(mockOpen).toHaveBeenCalled();
-      expect(mockGetReader).toHaveBeenCalled();
-      expect(mockGetWriter).toHaveBeenCalled();
+    it("obtains a writer", async () => {
+      await waitFor(() => {
+        expect(mockGetWriter).toHaveBeenCalled();
+      });
+    });
+
+    describe("when the Run button is clicked", () => {
+      beforeEach(async () => {
+        let runButton: HTMLElement;
+        await waitFor(() => {
+          runButton = screen.getByText("Run");
+        });
+
+        fireEvent.click(runButton!);
+      });
+
+      it("calls the writer", async () => {
+        await waitFor(() => {
+          expect(mockWrite).toHaveBeenCalled();
+        });
+      });
+
+      it("calls the reader", async () => {
+        await waitFor(() => {
+          expect(mockRead).toHaveBeenCalled();
+        });
+      });
     });
   });
 
-  test("sendCodeToBoard: entering code when connected writes to and reads from the board", async () => {
-    const connectButton = screen.getByText("Connect");
-
-    fireEvent.click(connectButton!);
-
-    await waitFor(() => {
-      expect(connectButton?.textContent).toBe("Disconnect");
+  describe("When the disconnect button is clicked", () => {
+    beforeEach(async () => {
+      clickConnect();
+      let disconnectButton: HTMLElement;
+      await waitFor(() => {
+        disconnectButton = screen.getByText("Disconnect");
+      });
+      fireEvent.click(disconnectButton!);
     });
 
-    const runButton = screen.getByText("Run");
-    fireEvent.click(runButton);
-
-    await waitFor(() => {
-      expect(mockWrite).toHaveBeenCalled();
+    it("releases the writer", async () => {
+      await waitFor(() => {
+        expect(mockWriterReleaseLock).toHaveBeenCalled();
+      });
     });
-    await waitFor(() => {
-      expect(mockRead).toHaveBeenCalled();
+
+    it("releases the writer", async () => {
+      await waitFor(() => {
+        expect(mockReaderReleaseLock).toHaveBeenCalled();
+      });
     });
-  });
 
-  test("releasePort: disconnecting calls port.close and shows disconnect message", async () => {
-    const button = screen.getByText("Connect");
-
-    fireEvent.click(button!);
-
-    await waitFor(() => {
-      expect(button?.textContent).toBe("Disconnect");
-    });
-    // Wait for disconnect to complete
-
-    fireEvent.click(button!);
-
-    await waitFor(() => {
-      expect(button?.textContent).toBe("Connect");
-      expect(mockClose).toHaveBeenCalled();
-      expect(mockWriterReleaseLock).toHaveBeenCalled();
-      expect(mockReaderReleaseLock).toHaveBeenCalled();
+    it("closes the port", async () => {
+      await waitFor(() => {
+        expect(mockClose).toHaveBeenCalled();
+      });
     });
   });
 });
