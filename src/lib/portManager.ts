@@ -1,6 +1,10 @@
 export class PortManager {
   private port: SerialPort | null = null;
   private reader: ReadableStreamDefaultReader | null = null;
+  private writer: WritableStreamDefaultWriter | null = null;
+
+  private carriageReturn = "\r";
+  private newLine = "\n";
 
   constructor() {
     // Initialize with no port connection
@@ -18,6 +22,7 @@ export class PortManager {
       await obtainedPort.open({ baudRate: 115200 });
       this.port = obtainedPort;
       this.setReader();
+      this.setWriter();
     } catch (e) {
       console.log("Port connection failure", e);
     }
@@ -28,6 +33,17 @@ export class PortManager {
     return this.reader!.read();
   }
 
+  public async write(code: Array<string>): Promise<void> {
+    const encoder = new TextEncoder();
+    code.forEach(async (line) => {
+      const formattedLine = line + this.carriageReturn;
+      await this.writer?.write(encoder.encode(formattedLine));
+    });
+    await this.writer?.write(
+      encoder.encode(this.carriageReturn + this.newLine)
+    );
+  }
+
   public hasPort(): boolean {
     return !!this.port;
   }
@@ -36,8 +52,16 @@ export class PortManager {
     return !!this.reader;
   }
 
+  public hasWriter(): boolean {
+    return !!this.writer;
+  }
+
   public getPort(): SerialPort | null {
     return this.port;
+  }
+
+  public canReadAndWrite(): boolean {
+    return !!this.reader && !!this.writer;
   }
 
   public getReader(): ReadableStreamDefaultReader | null {
@@ -51,5 +75,14 @@ export class PortManager {
 
   private setReader(): void {
     this.reader = this.port?.readable.getReader() || null;
+  }
+
+  private setWriter(): void {
+    this.writer = this.port?.writable.getWriter() || null;
+  }
+
+  public releaseWriter(): void {
+    this.writer?.releaseLock();
+    this.writer = null;
   }
 }

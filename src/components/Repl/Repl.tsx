@@ -13,40 +13,19 @@ export const Repl = () => {
   const [code, setCode] = useState<string[]>([]);
   const [port, setPort] = useState<SerialPort | null>(null);
 
-  const [writer, setWriter] =
-    useState<WritableStreamDefaultWriter<Uint8Array> | null>(null);
-
-  const softReboot = "\x04";
-  const interrupt = "\x03";
-  const carriageReturn = "\r";
-  const newLine = "\n";
+  // const softReboot = "\x04";
+  // const interrupt = "\x03";
 
   useEffect(() => {
-    const getWriter = async () => {
-      if (!port) {
-        return;
-      }
-      const writer = await port.writable.getWriter();
-      setWriter(writer);
-    };
-    getWriter();
-  }, [port]);
-
-  useEffect(() => {
-    if (!portManager.hasReader() || !writer) {
+    if (!portManager.canReadAndWrite()) {
       return;
     }
     appendContent("Connected to MicroPython", ".code-output");
-  }, [portManager, writer]);
+  }, [portManager]);
 
   const handleCodeChange = (value: string) => {
     setCode(value.split("\n"));
     console.log(code);
-  };
-
-  const releaseWriter = async () => {
-    await writer?.releaseLock();
-    setWriter(null);
   };
 
   const releasePort = async () => {
@@ -57,7 +36,7 @@ export const Repl = () => {
 
   const disconnectFromDevice = async () => {
     try {
-      await releaseWriter();
+      await portManager.releaseWriter();
       await portManager.releaseReader();
       await releasePort();
     } catch (error) {
@@ -69,7 +48,6 @@ export const Repl = () => {
   };
 
   const purgePorts = () => {
-    setWriter(null);
     setPort(null);
   };
 
@@ -93,19 +71,12 @@ export const Repl = () => {
   };
 
   const sendCodeToBoard = async (code: Array<string>) => {
-    if (!writer && !portManager.hasReader()) {
+    if (!portManager.canReadAndWrite()) {
       appendContent("Please connect to MicroPython first.", ".code-output");
       return;
     }
 
-    const encoder = new TextEncoder();
-
-    code.forEach(async (line) => {
-      console.log(line);
-      const formattedLine = line + carriageReturn;
-      await writer?.write(encoder.encode(formattedLine));
-    });
-    await writer?.write(encoder.encode(carriageReturn + newLine));
+    await portManager.write(code);
     await readFromBoard();
   };
 
