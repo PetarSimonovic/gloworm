@@ -13,10 +13,10 @@ export const Repl = () => {
   const [code, setCode] = useState<string[]>([]);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
-  const softReboot = "\x04";
+  // const softReboot = "\x04";
   const interrupt = "\x03";
-  const newLine = "\n";
-  const carriageReturn = "\r";
+  // const newLine = "\n";
+  // const carriageReturn = "\r";
 
   useEffect(() => {
     if (!portManager.canReadAndWrite()) {
@@ -79,18 +79,21 @@ export const Repl = () => {
     <div className="repl">
       <Heading connected={isConnected} />
       <CodeInput handleCodeChange={handleCodeChange} connected={isConnected} />
-      {isConnected && (
-        <div className="control-panel">
-          <Button
-            connected={true}
-            onClick={() => {
-              sendCodeToBoard(code);
-            }}
-            label={"Run"}
-          />
-          <Button connected={true} onClick={sendInterrupt} label={"Stop"} />
-        </div>
-      )}
+      <div className={`control-panel ${isConnected ? "visible" : "hidden"}`}>
+        <Button
+          connected={isConnected}
+          onClick={() => {
+            sendCodeToBoard(code);
+          }}
+          label={"Run"}
+        />
+        <Button
+          connected={isConnected}
+          onClick={sendInterrupt}
+          label={"Stop"}
+        />
+      </div>
+
       <CodeOutput connected={isConnected} />
       <div className="repl__control-panel">
         <Button
