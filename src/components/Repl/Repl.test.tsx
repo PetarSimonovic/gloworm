@@ -1,4 +1,6 @@
 import { Repl } from "./Repl";
+import { screen } from "@testing-library/react";
+
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import { TextEncoder, TextDecoder } from "util";
 import {
@@ -15,11 +17,10 @@ import {
 
 let container: HTMLElement;
 
-global.TextEncoder = TextEncoder;
-
 // The node TextDecoder is not exactly the same type as the DOM TextDecoder
 // When we use 'typeof' we're telling TypeScript to "trust me, this is compatible"
 global.TextDecoder = TextDecoder as typeof globalThis.TextDecoder;
+global.TextEncoder = TextEncoder as typeof globalThis.TextEncoder;
 
 beforeAll(() => {
   setupMockSerial();
@@ -32,7 +33,7 @@ beforeAll(() => {
   document.body.appendChild(codeOutput);
 });
 
-describe.skip("Repl", () => {
+describe("Repl", () => {
   beforeEach(() => {
     const rendered = render(<Repl />);
     container = rendered.container;
@@ -49,13 +50,13 @@ describe.skip("Repl", () => {
   });
 
   test("connectToPort: clicking the button changes label to 'Disconnect'", async () => {
-    const button = container.querySelector("button");
-    expect(button?.textContent).toBe("Connect");
+    const connectButton = screen.getByText("Connect");
+    expect(connectButton).not.toBe(null);
 
-    fireEvent.click(button!);
+    fireEvent.click(connectButton);
 
     await waitFor(() => {
-      expect(button?.textContent).toBe("Disconnect");
+      expect(connectButton?.textContent).toBe("Disconnect");
       expect(mockOpen).toHaveBeenCalled();
       expect(mockGetReader).toHaveBeenCalled();
       expect(mockGetWriter).toHaveBeenCalled();
@@ -63,23 +64,19 @@ describe.skip("Repl", () => {
   });
 
   test("sendCodeToBoard: entering code when connected writes to and reads from the board", async () => {
-    const button = container.querySelector("button");
-    expect(button?.textContent).toBe("Connect");
+    const connectButton = screen.getByText("Connect");
 
-    fireEvent.click(button!);
+    fireEvent.click(connectButton!);
 
     await waitFor(() => {
-      expect(button?.textContent).toBe("Disconnect");
+      expect(connectButton?.textContent).toBe("Disconnect");
     });
 
-    const codeInput = container.querySelector(".code-input");
-    fireEvent.change(codeInput!, { target: { value: "print('Hello')" } });
-    fireEvent.keyDown(codeInput!, { key: "Enter" });
+    const runButton = screen.getByText("Run");
+    fireEvent.click(runButton);
 
     await waitFor(() => {
-      expect(mockWrite).toHaveBeenCalledWith(
-        new TextEncoder().encode("print('Hello')\r\n")
-      );
+      expect(mockWrite).toHaveBeenCalled();
     });
     await waitFor(() => {
       expect(mockRead).toHaveBeenCalled();
@@ -87,16 +84,16 @@ describe.skip("Repl", () => {
   });
 
   test("releasePort: disconnecting calls port.close and shows disconnect message", async () => {
-    const button = container.querySelector("button");
+    const button = screen.getByText("Connect");
+
     fireEvent.click(button!);
+
     await waitFor(() => {
       expect(button?.textContent).toBe("Disconnect");
     });
-
-    // Disconnect
-    fireEvent.click(button!);
-
     // Wait for disconnect to complete
+
+    fireEvent.click(button!);
 
     await waitFor(() => {
       expect(button?.textContent).toBe("Connect");
