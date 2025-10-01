@@ -6,8 +6,10 @@ import { Button } from "../Button/Button";
 import { appendContent } from "../../lib/displayHelper";
 
 import "./Repl.scss";
+import { PortManager } from "../../lib/portManager";
 
 export const Repl = () => {
+  const [portManager] = useState<PortManager>(new PortManager());
   const [code, setCode] = useState<string[]>([]);
   const [port, setPort] = useState<SerialPort | null>(null);
   const [reader, setReader] =
@@ -26,7 +28,7 @@ export const Repl = () => {
       if (!port) {
         return;
       }
-      const reader = await port.readable.getReader();
+      const reader = await portManager.getReader();
       setReader(reader);
     };
     getReader();
@@ -44,17 +46,11 @@ export const Repl = () => {
   }, [port]);
 
   useEffect(() => {
-    if (!reader || !writer) {
+    if (!portManager.hasReader() || !writer) {
       return;
     }
     appendContent("Connected to MicroPython", ".code-output");
   }, [reader, writer]);
-
-  const connectToPort = async () => {
-    const obtainedPort = await navigator.serial.requestPort();
-    await obtainedPort.open({ baudRate: 115200 });
-    setPort(obtainedPort);
-  };
 
   const handleCodeChange = (value: string) => {
     setCode(value.split("\n"));
@@ -99,7 +95,7 @@ export const Repl = () => {
   const readFromBoard = async () => {
     try {
       while (reader && true) {
-        const { value, done } = await reader.read();
+        const { value, done } = await portManager.read();
         if (done) {
           appendContent("done", ".code-output");
           break;
@@ -136,7 +132,8 @@ export const Repl = () => {
     if (port) {
       disconnectFromDevice();
     } else {
-      connectToPort();
+      const obtainedPort = await portManager.connect();
+      setPort(obtainedPort);
     }
   };
 

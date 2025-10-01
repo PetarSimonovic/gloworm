@@ -16,7 +16,6 @@ import {
 } from "../../../__mocks__/mockSerial";
 
 let container: HTMLElement;
-let connectButton: HTMLElement;
 
 // The node TextDecoder is not exactly the same type as the DOM TextDecoder
 // When we use 'typeof' we're telling TypeScript to "trust me, this is compatible"
