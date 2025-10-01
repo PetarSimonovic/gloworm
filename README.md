@@ -36,7 +36,7 @@ If the connection is succesful the output pane will state that it's `Connected t
 
 ## Sending code to the board
 
-Type a line of code in the input pane at the top of the screen then press return to send it to the connected MicroPython board.
+Type code in the input pane at the top of the screen. Click **Run** to send it to the connected MicroPython board.
 
 The board's response will appear in the Output pane below.
 
@@ -53,15 +53,25 @@ led.toggle()
 
 Subsequent calls to `led.toggle()` should make the light go on and off.
 
-MicroPython uses indentation to delineate blocks of code. SloWorm doesn't yet offer any formatting help here.
+Use the **Stop** button to interrupt code that's in a loop, eg:
+
+```python
+from machine import Pin
+import time 
+led = Pin(25, Pin.OUT)
+
+while True:
+  led.toggle()
+  timer.sleep(0.5)
+```
 
 ## Disconnecting
 
 Click the disconnect button to disconnect from the board.
 
 ## Forthcoming work
-
-- Formatting help to indent/unindent MicroPython code (string indentation works at the moment but it's tempremental)
+- File storage to allow for larger projects
+- Functionality to install libraries to boards
 - More tests, refactoring etc
 - Flickering glowing effects, possibly to indicate errors
 - Accessibility testing/features to adjust colours
