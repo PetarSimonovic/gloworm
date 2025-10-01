@@ -12,8 +12,6 @@ export const Repl = () => {
   const [portManager] = useState<PortManager>(new PortManager());
   const [code, setCode] = useState<string[]>([]);
   const [port, setPort] = useState<SerialPort | null>(null);
-  const [reader, setReader] =
-    useState<ReadableStreamDefaultReader<Uint8Array> | null>(null);
 
   const [writer, setWriter] =
     useState<WritableStreamDefaultWriter<Uint8Array> | null>(null);
@@ -22,17 +20,6 @@ export const Repl = () => {
   const interrupt = "\x03";
   const carriageReturn = "\r";
   const newLine = "\n";
-
-  useEffect(() => {
-    const getReader = async () => {
-      if (!port) {
-        return;
-      }
-      const reader = await portManager.getReader();
-      setReader(reader);
-    };
-    getReader();
-  }, [port]);
 
   useEffect(() => {
     const getWriter = async () => {
@@ -50,7 +37,7 @@ export const Repl = () => {
       return;
     }
     appendContent("Connected to MicroPython", ".code-output");
-  }, [reader, writer]);
+  }, [portManager, writer]);
 
   const handleCodeChange = (value: string) => {
     setCode(value.split("\n"));
@@ -62,11 +49,6 @@ export const Repl = () => {
     setWriter(null);
   };
 
-  const releaseReader = async () => {
-    await reader?.releaseLock();
-    setReader(null);
-  };
-
   const releasePort = async () => {
     await port?.close();
     setPort(null);
@@ -76,7 +58,7 @@ export const Repl = () => {
   const disconnectFromDevice = async () => {
     try {
       await releaseWriter();
-      await releaseReader();
+      await portManager.releaseReader();
       await releasePort();
     } catch (error) {
       console.log(error);
@@ -87,14 +69,13 @@ export const Repl = () => {
   };
 
   const purgePorts = () => {
-    setReader(null);
     setWriter(null);
     setPort(null);
   };
 
   const readFromBoard = async () => {
     try {
-      while (reader && true) {
+      while (portManager.hasReader() && true) {
         const { value, done } = await portManager.read();
         if (done) {
           appendContent("done", ".code-output");
@@ -112,7 +93,7 @@ export const Repl = () => {
   };
 
   const sendCodeToBoard = async (code: Array<string>) => {
-    if (!writer && !reader) {
+    if (!writer && !portManager.hasReader()) {
       appendContent("Please connect to MicroPython first.", ".code-output");
       return;
     }

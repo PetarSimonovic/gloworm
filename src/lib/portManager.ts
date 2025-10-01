@@ -44,6 +44,11 @@ export class PortManager {
     return this.reader;
   }
 
+  public releaseReader(): void {
+    this.reader?.releaseLock();
+    this.reader = null;
+  }
+
   private setReader(): void {
     this.reader = this.port?.readable.getReader() || null;
   }
