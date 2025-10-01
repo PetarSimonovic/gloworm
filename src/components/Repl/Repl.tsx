@@ -1,20 +1,22 @@
+import { useState, useEffect } from "react";
 import { CodeInput } from "../CodeInput/CodeInput";
 import { Heading } from "../Heading/Heading";
-import { useState, useEffect } from "react";
 import { CodeOutput } from "../CodeOutput/CodeOutput";
 import { Button } from "../Button/Button";
 import { appendContent } from "../../lib/displayHelper";
+import { PortManager } from "../../lib/portManager";
 
 import "./Repl.scss";
-import { PortManager } from "../../lib/portManager";
 
 export const Repl = () => {
   const [portManager] = useState<PortManager>(new PortManager());
   const [code, setCode] = useState<string[]>([]);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
-  // const softReboot = "\x04";
-  // const interrupt = "\x03";
+  const softReboot = "\x04";
+  const interrupt = "\x03";
+  const newLine = "\n";
+  const carriageReturn = "\r";
 
   useEffect(() => {
     if (!portManager.canReadAndWrite()) {
@@ -25,15 +27,6 @@ export const Repl = () => {
 
   const handleCodeChange = (value: string) => {
     setCode(value.split("\n"));
-  };
-
-  const disconnectFromDevice = () => {
-    try {
-      portManager.disconnect();
-    } catch (error) {
-      console.log(error);
-      appendContent("Error disconnecting from MicroPython", ".code-output");
-    }
   };
 
   const readFromBoard = async () => {
@@ -64,9 +57,17 @@ export const Repl = () => {
     await readFromBoard();
   };
 
+  const sendInterrupt = async () => {
+    if (!portManager.canReadAndWrite()) {
+      return;
+    }
+    console.log("Interrupt");
+    await portManager.write([interrupt]);
+  };
+
   const onClickHandleConnection = async () => {
     if (portManager.hasPort()) {
-      disconnectFromDevice();
+      portManager.disconnect();
       setIsConnected(false);
     } else {
       await portManager.connect();
@@ -79,14 +80,16 @@ export const Repl = () => {
       <Heading connected={isConnected} />
       <CodeInput handleCodeChange={handleCodeChange} connected={isConnected} />
       {isConnected && (
-        <Button
-          connected={true}
-          onClick={() => {
-            // Join code lines and send to board
-            sendCodeToBoard(code);
-          }}
-          label={"Run"}
-        />
+        <div className="control-panel">
+          <Button
+            connected={true}
+            onClick={() => {
+              sendCodeToBoard(code);
+            }}
+            label={"Run"}
+          />
+          <Button connected={true} onClick={sendInterrupt} label={"Stop"} />
+        </div>
       )}
       <CodeOutput connected={isConnected} />
       <div className="repl__control-panel">

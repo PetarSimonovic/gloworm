@@ -5,7 +5,10 @@
   width: 100%;
   gap: 5rem;
 
-  .__control-panel {
+  .control-panel {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
     justify-content: space-between;
   }
 }

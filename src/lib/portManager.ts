@@ -43,6 +43,8 @@ export class PortManager {
     const encoder = new TextEncoder();
     code.forEach(async (line) => {
       const formattedLine = line + this.carriageReturn;
+      console.log(formattedLine);
+
       await this.writer?.write(encoder.encode(formattedLine));
     });
     return await this.writer?.write(
