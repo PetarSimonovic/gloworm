@@ -9,8 +9,8 @@ interface ButtonProps {
 export const Button = ({ onClick, label, connected }: ButtonProps) => {
   return (
     <button
-      className={`glowworm-button ${
-        connected ? "glowworm-button--connected" : ""
+      className={`gloworm-button ${
+        connected ? "gloworm-button--connected" : ""
       }`}
       onClick={onClick}
     >

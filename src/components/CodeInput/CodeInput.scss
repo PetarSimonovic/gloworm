@@ -40,17 +40,17 @@
 
   &--connected {
     outline: none;
-    color: var(--glowworm-green); /* Light text color */
-    text-shadow: 0 0 1px var(--glowworm-green), 0 0 1px var(--glowworm-green),
-      0 0 3px var(--glowworm-green); /* Glowing effect */
+    color: var(--gloworm-green); /* Light text color */
+    text-shadow: 0 0 1px var(--gloworm-green), 0 0 1px var(--gloworm-green),
+      0 0 3px var(--gloworm-green); /* Glowing effect */
     background-color: #16161d; /* Dark background color */
     box-shadow: 5px 5px 25px #4a4a4a, -5px -5px 25px #000000,
-      0 0 25px var(--glowworm-green), 0 0 35px var(--glowworm-green); /* Increase glow on hover */
+      0 0 25px var(--gloworm-green), 0 0 35px var(--gloworm-green); /* Increase glow on hover */
 
     .cm-content {
       text-shadow: none; // Remove glow from code text
       // Or use a very subtle glow:
-      // text-shadow: 0 0 1px var(--glowworm-green);
+      // text-shadow: 0 0 1px var(--gloworm-green);
     }
 
     // Also apply to other CodeMirror text elements

@@ -1,4 +1,4 @@
-.glowworm-heading {
+.gloworm-heading {
   font-size: 4rem;
   font-weight: bold;
   color: whitesmoke; /* Light text color */
@@ -10,7 +10,7 @@
 
   margin: 2rem;
 
-  .glowworm-heading-icon {
+  .gloworm-heading-icon {
     font-family: "Font Awesome 5 Free"; /* Ensure it uses the Font Awesome font */
     font-weight: 900; /* Required for Font Awesome icons */
     display: inline-block;
@@ -37,12 +37,12 @@
   }
 
   &--connected {
-    filter: drop-shadow(0 0 1px var(--glowworm-green))
-      drop-shadow(0 0 3px var(--glowworm-green))
-      drop-shadow(0 0 6px var(--glowworm-green))
-      drop-shadow(0 0 9px var(--glowworm-yellow))
-      drop-shadow(0 0 12px var(--glowworm-yellow));
-    .glowworm-heading-icon {
+    filter: drop-shadow(0 0 1px var(--gloworm-green))
+      drop-shadow(0 0 3px var(--gloworm-green))
+      drop-shadow(0 0 6px var(--gloworm-green))
+      drop-shadow(0 0 9px var(--gloworm-yellow))
+      drop-shadow(0 0 12px var(--gloworm-yellow));
+    .gloworm-heading-icon {
       &--face-right {
         clip-path: inset(0 0 0 33%); /* Clip the right third of the icon */
         // move further to the right

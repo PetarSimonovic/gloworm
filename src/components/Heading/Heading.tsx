@@ -5,19 +5,19 @@ interface HeadingProps {
 }
 
 export const Heading = ({ connected }: HeadingProps) => {
-  const glowWormUnicode = "\uE599";
+  const glowormUnicode = "\uE599";
   return (
     <div
-      className={`glowworm-heading ${
-        connected ? "glowworm-heading--connected" : ""
+      className={`gloworm-heading ${
+        connected ? "gloworm-heading--connected" : ""
       }`}
     >
       Glo
-      <span className="glowworm-heading-icon glowworm-heading-icon--face-right">
-        {glowWormUnicode}
+      <span className="gloworm-heading-icon gloworm-heading-icon--face-right">
+        {glowormUnicode}
       </span>
-      <span className="glowworm-heading-icon glowworm-heading-icon--face-left">
-        {glowWormUnicode}
+      <span className="gloworm-heading-icon gloworm-heading-icon--face-left">
+        {glowormUnicode}
       </span>
       orm
     </div>
