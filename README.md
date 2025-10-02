@@ -1,6 +1,6 @@
-# SloWorm
+# GloWorm
 
-SloWorm is an in-browser tool that uses the [Web Serial API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API) to connect and code MicroPython boards.
+GloWorm is an in-browser tool that uses the [Web Serial API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API) to connect and code MicroPython boards.
 
 It's a work in progress and has been developed using a Raspberry Pi Pico. No other types of board have been tested.
 
@@ -22,11 +22,11 @@ or run it locally
  npm run start
 ```
 
-SloWorm should be available on http://localhost:5173/
+GloWorm should be available on http://localhost:5173/
 
 ## Connecting a MicroPython board
 
-Connect your computer to a MicroPythobn board (SloWorm has been tested only with a Raspberry Pi Pico)
+Connect your computer to a MicroPythobn board (GloWorm has been tested only with a Raspberry Pi Pico)
 
 Click the `connect` button.
 
