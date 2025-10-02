@@ -62,7 +62,7 @@ led = Pin(25, Pin.OUT)
 
 while True:
   led.toggle()
-  timer.sleep(0.5)
+  time.sleep(0.5)
 ```
 
 ## Disconnecting
