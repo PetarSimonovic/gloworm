@@ -12,7 +12,7 @@ Chrome is recommended.
 
 You'll need a MicroPython controller (the app has been tested only with a Raspberry Pi Pico).
 
-Visit https://petarsimonovic.github.io/sloworm/
+Visit https://petarsimonovic.github.io/gloworm/
 
 or run it locally
 
@@ -36,7 +36,7 @@ If the connection is succesful the output pane will state that it's `Connected t
 
 ## Sending code to the board
 
-Type code in the input pane at the top of the screen. Click **Run** to send it to the connected MicroPython board.
+Type code in the input pane at the top of the screen. Click `Run` to send it to the connected MicroPython board.
 
 The board's response will appear in the Output pane below.
 
@@ -53,7 +53,7 @@ led.toggle()
 
 Subsequent calls to `led.toggle()` should make the light go on and off.
 
-Use the **Stop** button to interrupt code that's in a loop, eg:
+Use the `Stop` button to interrupt code that's in a loop, eg:
 
 ```python
 from machine import Pin
