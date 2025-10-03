@@ -1,6 +1,6 @@
 # GloWorm
 
-GloWorm is an in-browser tool that uses the [Web Serial API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API) to connect and code MicroPython boards.
+GloWorm is an in-browser tool that uses the [Web Serial API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API) to send code to MicroPython boards.
 
 It's a work in progress and has been developed using a Raspberry Pi Pico. No other types of board have been tested.
 
